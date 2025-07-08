@@ -56,6 +56,9 @@ A fictional legislative portal for the East Coast Conglomerate, featuring the la
    - `viewpoint_3` with field `endorsements: 0`
    - `viewpoint_4` with field `endorsements: 0`
 
+### Security Note
+The Firebase configuration keys in this project are client-side keys that are safe to be public. GitHub may flag them as potential secrets, but this is a false positive. Firebase client-side keys are designed to be embedded in public applications and real security comes from Firestore Security Rules, not from hiding these keys.
+
 ## Environment Variables
 
 For production deployment, set these environment variables:

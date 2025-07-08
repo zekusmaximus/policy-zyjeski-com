@@ -5,6 +5,8 @@ import { getFirestore, collection, doc, onSnapshot, updateDoc, increment, getDoc
 
 // --- FIREBASE CONFIGURATION ---
 // Use environment variables in production, fallback to hardcoded values for development
+// Note: These Firebase client-side keys are safe to be public (not secrets)
+// Real security comes from Firestore Security Rules, not hiding these keys
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyAbVlJhifVnJxA360gPXteRskc6qlo2D0Y",
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "policy-zyjeski-com.firebaseapp.com",
