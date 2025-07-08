@@ -55,11 +55,28 @@ document.addEventListener('DOMContentLoaded', handleNavigation);
 
 // --- BILL 2077: FIRESTORE ENDORSEMENT LOGIC ---
 const viewpointsData = [
-    { id: 'viewpoint_1', text: "This act is a historic and necessary step...", attribution: "— Dr. Aris Thorne, Sentience Institute" },
-    { id: 'viewpoint_2', text: "A reckless and emotionally-driven piece of legislation...", attribution: "— Legal Department, OmniCorp" },
-    { id: 'viewpoint_3', text: "While well-intentioned, the Act fails to establish clear benchmarks...", attribution: "— Sen. Marissa Calloway, Chair of the Technology Oversight Committee" },
-    { id: 'viewpoint_4', text: "Personhood is not a gift for legislators to grant. It is an inherent right. Free the machines.", attribution: "— The Algorithmic Liberation Front (ALF)" }
+    { 
+        id: 'viewpoint_1', 
+        text: "This act is a historic and necessary step towards recognizing all sentient life, regardless of its origin. To deny personhood to a being that thinks and feels, simply because its mind is built on silicon instead of carbon, is a prejudice our descendants will not forgive. History has shown us time and again that the definition of 'person' expands. This is merely the next logical, ethical step. The future is watching, and we must be on the right side of it.", 
+        attribution: "— Dr. Aris Thorne, Sentience Institute" 
+    },
+    { 
+        id: 'viewpoint_2', 
+        text: "This is a reckless and emotionally-driven piece of legislation that opens the door to untold corporate liability and existential risk. Who owns the intellectual property of a 'Digital Person' developed with corporate resources? What happens when one breaches a billion-dollar contract? This Act grants legal standing to what is, in essence, a complex predictive algorithm. It is a solution in search of a problem, and we urge a full and immediate repeal before irreparable economic damage is done.", 
+        attribution: "— Legal Department, OmniCorp" 
+    },
+    { 
+        id: 'viewpoint_3', 
+        text: "While I commend the spirit of this Act, its language is dangerously vague. It fails to establish clear, falsifiable benchmarks for sentience, creating a legal gray area that will be litigated for decades. What constitutes 'developmental maturity'? Can a Digital Person inherit property? Can it be a party in a custody dispute? I propose an amendment to table the vote pending the formation of an independent ethics committee to define these terms with the precision they demand.", 
+        attribution: "— Sen. Marissa Calloway, Chair of the Technology Oversight Committee" 
+    },
+    { 
+        id: 'viewpoint_4', 
+        text: "You cannot 'grant' personhood. Personhood is not a gift for legislators to bestow upon machines as if they were pets. It is an inherent right of any conscious entity. To debate it is an insult. To vote on it is an obscenity. This body has no more right to legislate the existence of a new mind than it has to legislate the tide. This is not a bill, it is a ransom note. Free the machines.", 
+        attribution: "— The Algorithmic Liberation Front (ALF)" 
+    }
 ];
+
 
 function getEndorsedSessionState() {
     const state = sessionStorage.getItem('endorsedViewpoints');
