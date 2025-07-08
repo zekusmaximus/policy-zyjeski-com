@@ -1,0 +1,4 @@
+# Netlify redirects file for Single Page Application
+# This ensures that all routes are handled by the client-side router
+
+/*    /index.html   200
