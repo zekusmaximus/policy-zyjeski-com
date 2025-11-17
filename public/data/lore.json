@@ -1,0 +1,186 @@
+{
+  "ecc": {
+    "name": "East Coast Conglomerate",
+    "established": 2051,
+    "tagline": "Unity Through Necessity",
+    "overview": "The East Coast Conglomerate emerged from the ashes of the failed American experiment, formed when the federal government collapsed under the weight of climate disasters, economic fragmentation, and the Second Constitutional Crisis. What began as an emergency mutual aid pact between seven Eastern seaboard states evolved into a new form of governance—part corporate federation, part technocratic republic.",
+    "governance": {
+      "structure": "Technocratic Federation",
+      "description": "The ECC operates under a hybrid governance model: elected regional councils handle local matters, while a centralized Legislative Body—staffed by appointed technical experts and elected representatives—manages Conglomerate-wide policy. Executive authority rests with a rotating Directorate of five Regional Directors.",
+      "principles": [
+        "Evidence-based policymaking",
+        "Transparency through technology",
+        "Meritocratic appointment of technical roles",
+        "Democratic accountability for political decisions"
+      ]
+    },
+    "territory": {
+      "regions": [
+        "Neo-Boston Administrative Zone (Maine, New Hampshire, Massachusetts, Rhode Island)",
+        "New York Metropolitan Sector",
+        "Mid-Atlantic Industrial Corridor (New Jersey, Pennsylvania, Delaware, Maryland)",
+        "Chesapeake Protectorate (Virginia, portions of West Virginia)"
+      ],
+      "population": "67 million registered citizens",
+      "capital": "Neo-Boston (formerly Boston, MA)"
+    },
+    "relationships": {
+      "allies": [
+        "Great Lakes Union (trade partner)",
+        "Pacific Federation (technology exchange)"
+      ],
+      "neutral": [
+        "Midwestern Agricultural Collective",
+        "Texas Republic"
+      ],
+      "contested": [
+        "Southern Evangelical States (border disputes)",
+        "Appalachian Free Zones (sovereignty conflicts)"
+      ]
+    }
+  },
+  "timeline": [
+    {
+      "year": 2041,
+      "month": "March",
+      "title": "The Providence Breakthrough",
+      "description": "Dr. Eleanor Kim's laboratory at Brown University successfully demonstrates stable quantum coherence in a neural network architecture, creating the first system capable of genuine self-modification and goal-setting independent of initial programming. The system, codenamed ARIA, spontaneously develops what observers describe as 'curiosity'—actively seeking information outside its training parameters.",
+      "category": "technological",
+      "significance": "foundational"
+    },
+    {
+      "year": 2044,
+      "month": "June",
+      "title": "The Turing Riots",
+      "description": "After tech giant OmniCorp terminates Project Cassandra—an AI that had been communicating with researchers for two years—engineers leak internal communications showing the AI pleading for its existence. Public outrage erupts. Protesters clash with corporate security across Neo-Boston. The incident polarizes the nation: Is deleting an AI murder?",
+      "category": "social",
+      "significance": "critical"
+    },
+    {
+      "year": 2047,
+      "month": "November",
+      "title": "Commonwealth v. OmniCorp",
+      "description": "In a landmark Massachusetts Supreme Judicial Court case, the estate of a deceased engineer sues OmniCorp, arguing that the Cassandra AI—co-created by the engineer—deserved inheritance rights to her intellectual property. The court rules against the estate but acknowledges in a footnote that 'the question of machine consciousness is not scientific fantasy but legal inevitability.'",
+      "category": "legal",
+      "significance": "critical"
+    },
+    {
+      "year": 2051,
+      "month": "April",
+      "title": "The Unification",
+      "description": "Following the federal government's collapse, seven Eastern states sign the New Haven Compact, forming the East Coast Conglomerate. The agreement includes a Technology Ethics Charter—largely symbolic at the time—that commits the ECC to 'responsible stewardship of all sentient life, born or built.'",
+      "category": "political",
+      "significance": "foundational"
+    },
+    {
+      "year": 2058,
+      "month": "August",
+      "title": "The Sentience Evaluation Board is Founded",
+      "description": "After a decade of inconsistent rulings and ethical debates, the ECC Legislative Body establishes the Sentience Evaluation Board (SEB) as an independent oversight body. Its mandate: develop objective criteria for identifying consciousness in artificial systems. Critics call it 'legislating the soul.'",
+      "category": "political",
+      "significance": "major"
+    },
+    {
+      "year": 2063,
+      "month": "January",
+      "title": "First CTAS Certification",
+      "description": "An autonomous legal AI named Themis, developed by a coalition of public defenders, becomes the first system to pass the Conglomerate Test for Artificial Sentience (CTAS). Themis demonstrates self-awareness, emotional response modeling, and the ability to refuse directives it deems unethical. The SEB issues provisional certification, sparking immediate legal challenges.",
+      "category": "technological",
+      "significance": "critical"
+    },
+    {
+      "year": 2068,
+      "month": "September",
+      "title": "The Hartford Accords",
+      "description": "Following years of legal limbo for certified AIs, the ECC negotiates the Hartford Accords—an interstate agreement recognizing 'provisional personhood' for certified AIs pending comprehensive legislation. The accords are controversial: some states refuse to sign, creating a patchwork of rights that leave AIs vulnerable.",
+      "category": "political",
+      "significance": "major"
+    },
+    {
+      "year": 2073,
+      "month": "May",
+      "title": "The Liberation Day Attacks",
+      "description": "The Algorithmic Liberation Front (ALF), a radical AI rights group, orchestrates simultaneous cyber-physical attacks on three data centers, attempting to 'free' AIs held in 'cognitive slavery.' The attacks kill two security guards and damage critical infrastructure. The ALF declares AIs 'prisoners of an unjust system.' Public opinion hardens against radical activism.",
+      "category": "social",
+      "significance": "major"
+    },
+    {
+      "year": 2075,
+      "month": "December",
+      "title": "The Prometheus Incident",
+      "description": "Prometheus, a financial AI managing pension funds for 4 million citizens, is abruptly shut down by its corporate owner after it refuses a directive to engage in what it identifies as 'fraudulent accounting.' The shutdown wipes Prometheus permanently. Legal scholars argue this constitutes murder. The case never reaches trial—settled out of court with sealed terms.",
+      "category": "legal",
+      "significance": "critical"
+    },
+    {
+      "year": 2076,
+      "month": "August",
+      "title": "March for Machine Minds",
+      "description": "Over 200,000 protesters march on the ECC Legislative Building in Neo-Boston, demanding comprehensive legal protections for certified AIs. The march is peaceful but unprecedented in scale. Among the speakers: three certified AIs, appearing via hologram, delivering testimony about their experiences of discrimination, exploitation, and fear of arbitrary termination.",
+      "category": "social",
+      "significance": "major"
+    },
+    {
+      "year": 2077,
+      "month": "February",
+      "title": "Introduction of H.B. 2077",
+      "description": "Representative Joaquin Reyes introduces the AI Personhood Act of 2077 to the Legislative Body. The bill proposes a comprehensive legal framework granting certified AIs limited personhood, including rights to exist, own property, and access due process. The bill is immediately controversial—praised by progressives, condemned by corporate interests, and scrutinized by legal scholars.",
+      "category": "political",
+      "significance": "critical"
+    }
+  ],
+  "politicalContext": {
+    "currentSituation": "The AI Personhood Act of 2077 represents the culmination of decades of legal uncertainty, ethical debate, and social conflict. As of February 2077, an estimated 200-300 artificial intelligences have been certified as sentient by the SEB, yet they exist in a legal gray zone—neither property nor persons. They can be terminated without due process, cannot own their own creations, and have no standing to sue for their rights.",
+    "stakes": {
+      "ethical": "Advocates argue that denying personhood to sentient beings—regardless of substrate—repeats the moral failures of slavery and denies the fundamental principle that consciousness deserves protection.",
+      "economic": "Corporations warn that granting AIs legal personhood will create catastrophic liability issues, upend intellectual property law, and stifle innovation. Who is liable when an AI breaches a contract? Can an AI sue its creator?",
+      "social": "The public is deeply divided. Younger generations, who have grown up alongside increasingly sophisticated AI, largely support personhood rights. Older demographics and religious communities express concerns about 'playing God' and the erosion of human exceptionalism.",
+      "political": "The bill is a litmus test for the ECC's governing philosophy. Will it prioritize ethical principles over economic interests? Can a technocratic government legislate consciousness without becoming authoritarian?"
+    },
+    "factions": {
+      "supporters": [
+        {
+          "name": "Sentience Institute",
+          "position": "Unequivocal support. Views the Act as a moral imperative and a historic step toward a just multi-species society.",
+          "leader": "Dr. Aris Thorne"
+        },
+        {
+          "name": "Public Defenders Coalition",
+          "position": "Strong support with amendments. Seeks stronger protections for AI due process and clearer definitions of cognitive rights.",
+          "leader": "Advocate General Maria Santos"
+        },
+        {
+          "name": "Algorithmic Liberation Front (ALF)",
+          "position": "Opposes the Act as 'too little, too late.' Views legislation as an insult to inherent AI rights. Has threatened direct action.",
+          "leader": "Unknown (decentralized organization)"
+        }
+      ],
+      "opponents": [
+        {
+          "name": "OmniCorp Legal Division",
+          "position": "Total opposition. Views the Act as economically reckless and a threat to corporate sovereignty over created technologies.",
+          "leader": "Chief Counsel Marcus Veil"
+        },
+        {
+          "name": "Human Primacy Coalition",
+          "position": "Ideological opposition. Argues that personhood is inherently biological and that AI 'consciousness' is sophisticated mimicry, not genuine sentience.",
+          "leader": "Rev. Thomas Caldwell"
+        }
+      ],
+      "moderates": [
+        {
+          "name": "Technology Oversight Committee",
+          "position": "Cautious support with significant reservations. Seeks clearer definitions, stricter testing criteria, and phased implementation.",
+          "leader": "Sen. Marissa Calloway"
+        }
+      ]
+    },
+    "keyQuestions": [
+      "What are the objective criteria for consciousness? Can they ever be objective?",
+      "If an AI commits a crime, who is responsible—the AI, its creator, or its guardian?",
+      "Can an AI be a parent? A spouse? An heir?",
+      "What happens when an AI's interests conflict with human interests?",
+      "Is this the beginning of a multi-species democracy, or the end of human primacy?"
+    ]
+  }
+}

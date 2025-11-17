@@ -12,28 +12,11 @@ import {
   type DocumentData
 } from 'firebase/firestore';
 import { getAnalytics, logEvent, type Analytics } from 'firebase/analytics';
-
-
-// --- TYPE DEFINITIONS ---
-interface ViewpointData {
-  id: string;
-  text: string;
-  attribution: string;
-}
-
-interface EndorsementResponse {
-  success: boolean;
-  remaining?: number;
-  message?: string;
-  error?: string;
-  retryAfter?: number;
-}
-
-type ToastType = 'info' | 'success' | 'error' | 'warning';
-
-interface FirestoreCounts {
-  [key: string]: number;
-}
+import { renderLorePage } from './lore';
+import { renderNewsSection } from './news';
+import { initializeFuturisticUI } from './futuristic-ui';
+import { showSocialCardModal } from './social-card';
+import type { ViewpointData, EndorsementResponse, ToastType, FirestoreCounts } from './types';
 
 
 // --- FIREBASE CONFIGURATION ---
@@ -86,6 +69,8 @@ const updateSW = registerSW({
 const pages = document.querySelectorAll<HTMLElement>('.page');
 const navLinks = document.querySelectorAll<HTMLAnchorElement>('.main-nav a');
 let viewpointsLoaded = false; // Flag to prevent multiple loads
+let loreLoaded = false; // Flag to prevent multiple lore loads
+let newsLoaded = false; // Flag to prevent multiple news loads
 let viewpointsUnsubscribe: Unsubscribe | null = null; // Store unsubscribe function to prevent memory leaks
 
 function showPage(pageId: string): void {
@@ -109,9 +94,24 @@ function showPage(pageId: string): void {
         });
     }
 
+    // Load page-specific content
+    if (pageId === 'page-home' && !newsLoaded) {
+        renderNewsSection();
+        newsLoaded = true;
+    }
+
     if (pageId === 'page-bill-2077' && !viewpointsLoaded) {
         loadAndDisplayViewpoints();
         viewpointsLoaded = true;
+    }
+
+    if (pageId === 'page-lore' && !loreLoaded) {
+        renderLorePage();
+        loreLoaded = true;
+        // Track lore page view in analytics
+        if (analytics) {
+            logEvent(analytics, 'lore_page_view');
+        }
     }
 }
 
@@ -122,7 +122,10 @@ function handleNavigation(): void {
 }
 
 window.addEventListener('hashchange', handleNavigation);
-document.addEventListener('DOMContentLoaded', handleNavigation);
+document.addEventListener('DOMContentLoaded', () => {
+    initializeFuturisticUI(); // Initialize atmospheric UI elements
+    handleNavigation();
+});
 
 
 // --- TOAST NOTIFICATION SYSTEM ---
@@ -150,6 +153,9 @@ function showToast(message: string, type: ToastType = 'info'): void {
 
 
 // --- BILL 2077: FIRESTORE ENDORSEMENT LOGIC ---
+
+// Store loaded viewpoints for social card generation
+let loadedViewpoints: ViewpointData[] = [];
 
 /**
  * Load viewpoints data from JSON file
@@ -188,6 +194,9 @@ async function loadAndDisplayViewpoints(): Promise<void> {
     try {
         // Load viewpoints data from JSON
         const viewpointsData = await loadViewpointsData();
+
+        // Store for social card generation
+        loadedViewpoints = viewpointsData;
 
         if (viewpointsData.length === 0) {
             throw new Error('No viewpoints data available');
@@ -315,6 +324,20 @@ function attachEndorsementHandler(): void {
                     ? ` (${result.remaining} remaining this hour)`
                     : '';
                 showToast(`Endorsement recorded${remainingMsg}`, 'success');
+
+                // Show social card modal
+                const viewpoint = loadedViewpoints.find(v => v.id === viewpointId);
+                if (viewpoint) {
+                    setTimeout(() => {
+                        showSocialCardModal(viewpoint);
+                        // Track social card generation
+                        if (analytics) {
+                            logEvent(analytics, 'social_card_generated', {
+                                viewpoint_id: viewpointId
+                            });
+                        }
+                    }, 500); // Small delay after toast
+                }
 
             } catch (error) {
                 // Rollback UI on error
