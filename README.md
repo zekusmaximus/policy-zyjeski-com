@@ -14,10 +14,11 @@ A fictional legislative portal for the East Coast Conglomerate, featuring the la
 
 ## Technology Stack
 
-- **Frontend**: Vanilla JavaScript, HTML5, CSS3
+- **Frontend**: TypeScript, HTML5, CSS3
 - **Build Tool**: Vite 7.0
 - **Database**: Firebase Firestore
 - **Backend**: Firebase Cloud Functions (for rate limiting)
+- **Testing**: Vitest with happy-dom environment
 - **Hosting**: Netlify (recommended) or Firebase Hosting
 - **Styling**: Custom CSS with CSS Variables
 
@@ -46,8 +47,13 @@ A fictional legislative portal for the East Coast Conglomerate, featuring the la
 ### Development Commands
 
 - `npm run dev` - Start development server
-- `npm run build` - Build for production
+- `npm run build` - Type-check and build for production
 - `npm run preview` - Preview production build locally
+- `npm run test` - Run tests in watch mode
+- `npm run test:run` - Run tests once
+- `npm run test:ui` - Run tests with UI
+- `npm run test:coverage` - Run tests with coverage report
+- `npm run type-check` - Run TypeScript type checking without emitting files
 
 ## Firebase Setup
 
@@ -129,6 +135,46 @@ This application implements multiple security layers:
 
 See [SECURITY.md](./SECURITY.md) for detailed security documentation.
 
+## TypeScript & Testing
+
+This project is built with TypeScript for type safety and uses Vitest for testing.
+
+### TypeScript
+
+- **Strict Mode**: Enabled for maximum type safety
+- **Type Definitions**: Custom types for viewpoints, Firebase data, and API responses
+- **Environment Types**: Type-safe access to Vite environment variables
+
+### Testing
+
+The project includes comprehensive unit tests covering:
+
+- Session storage utilities
+- Toast notification system
+- HTML generation functions
+- Input validation
+- Error handling
+- Endorsement API integration
+- Button state management
+
+**Test Coverage**:
+- 29 passing tests across 2 test files
+- Mocked Firebase and network calls
+- Tests for offline scenarios and error states
+
+**Running Tests**:
+```bash
+npm test              # Watch mode
+npm run test:run      # Run once
+npm run test:coverage # With coverage report
+```
+
+### Code Quality
+
+- **Type Checking**: Run `npm run type-check` before commits
+- **Build Validation**: Build includes type-checking step
+- **Strict CSP**: Removed `unsafe-inline` and `unsafe-eval` from Content Security Policy
+
 ## Project Structure
 
 ```
@@ -141,13 +187,20 @@ ecc-portal/
 │   ├── _redirects         # Netlify SPA redirects
 │   └── vite.svg          # Favicon
 ├── src/
-│   ├── main.js           # Main application logic
+│   ├── test/             # Test files
+│   │   ├── setup.ts      # Test environment setup
+│   │   ├── utils.test.ts # Utility function tests
+│   │   └── endorsement.test.ts # Endorsement logic tests
+│   ├── main.ts           # Main application logic (TypeScript)
+│   ├── vite-env.d.ts     # Vite environment type definitions
 │   └── style.css         # Application styles
 ├── index.html            # Main HTML template
 ├── firebase.json         # Firebase configuration
 ├── firestore.rules       # Database security rules
 ├── netlify.toml          # Netlify configuration
 ├── vite.config.js        # Vite build configuration
+├── tsconfig.json         # TypeScript configuration
+├── tsconfig.node.json    # TypeScript config for build tools
 ├── SECURITY.md           # Security documentation
 └── package.json          # Dependencies and scripts
 ```

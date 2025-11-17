@@ -45,3 +45,10 @@ ehthumbs.db
 firebase-debug.log
 firestore-debug.log
 ui-debug.log
+
+# Testing
+coverage/
+.nyc_output
+
+# TypeScript
+*.tsbuildinfo
