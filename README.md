@@ -8,17 +8,24 @@ A fictional legislative portal for the East Coast Conglomerate, featuring the la
 - **Real-time Data**: Live endorsement counts using Firebase Firestore
 - **Interactive Testimony**: Users can endorse different viewpoints on legislation
 - **Responsive Design**: Works on desktop and mobile devices
+- **Progressive Web App (PWA)**: Installable with offline support via Service Workers
 - **Production Ready**: Optimized for deployment on Netlify
 - **Security First**: Rate limiting, input validation, and Firestore security rules
 - **Error Handling**: Comprehensive error handling with user-friendly feedback
+- **Analytics**: Firebase Analytics tracking for user engagement and errors
+- **Content Management**: Dynamic content loading from JSON files
+- **CI/CD Pipeline**: Automated testing and deployment via GitHub Actions
 
 ## Technology Stack
 
 - **Frontend**: TypeScript, HTML5, CSS3
-- **Build Tool**: Vite 7.0
+- **Build Tool**: Vite 7.0 with PWA plugin
 - **Database**: Firebase Firestore
 - **Backend**: Firebase Cloud Functions (for rate limiting)
+- **Analytics**: Firebase Analytics for user tracking
+- **PWA**: Workbox for service workers and offline support
 - **Testing**: Vitest with happy-dom environment
+- **CI/CD**: GitHub Actions for automated testing and deployment
 - **Hosting**: Netlify (recommended) or Firebase Hosting
 - **Styling**: Custom CSS with CSS Variables
 
@@ -175,17 +182,139 @@ npm run test:coverage # With coverage report
 - **Build Validation**: Build includes type-checking step
 - **Strict CSP**: Removed `unsafe-inline` and `unsafe-eval` from Content Security Policy
 
+## Progressive Web App (PWA) & Offline Support
+
+This application is a fully-featured Progressive Web App with offline capabilities.
+
+### Features
+
+- **Installable**: Can be installed on mobile and desktop devices
+- **Offline Support**: Works without internet connection using Service Workers
+- **Automatic Updates**: New versions are automatically detected and prompt for update
+- **Caching Strategies**:
+  - **Firebase Firestore**: Network-first with 1-hour cache
+  - **Cloud Functions**: Network-first with 5-minute cache
+  - **Static Assets**: Precached during installation
+  - **Viewpoints Data**: Stale-while-revalidate for optimal performance
+
+### Installation
+
+Users can install the app by:
+1. Clicking the "Install" button in the browser address bar
+2. Using "Add to Home Screen" on mobile devices
+3. The app will appear as a standalone application
+
+### Offline Behavior
+
+When offline, the app:
+- Displays cached viewpoints data
+- Shows offline notification
+- Queues endorsement attempts for when connection returns
+- Maintains full UI functionality
+
+## Firebase Analytics
+
+Comprehensive analytics tracking is implemented for:
+
+### Tracked Events
+
+1. **app_initialized**: When the application starts
+2. **page_view**: Every page navigation with page details
+3. **endorsement_submitted**: Successful endorsements with viewpoint ID
+4. **endorsement_error**: Failed endorsements with error details
+
+### Analytics Dashboard
+
+View analytics in your Firebase Console:
+- User engagement metrics
+- Page view analytics
+- Endorsement conversion rates
+- Error tracking and debugging
+
+### Privacy
+
+- No personal data is collected
+- All tracking is anonymous
+- Analytics can be blocked by ad blockers (handled gracefully)
+
+## Content Management
+
+Viewpoint content is now managed via JSON files for easy updates.
+
+### Updating Content
+
+1. Edit `/public/data/viewpoints.json`
+2. Modify viewpoint text, attribution, or add new viewpoints
+3. Commit and deploy - no code changes needed
+
+### JSON Structure
+
+```json
+{
+  "viewpoints": [
+    {
+      "id": "viewpoint_1",
+      "text": "Your viewpoint text here",
+      "attribution": "— Author Name, Title"
+    }
+  ]
+}
+```
+
+### Benefits
+
+- **No Code Changes**: Update content without touching TypeScript
+- **Version Control**: Track content changes in Git
+- **Easy Collaboration**: Non-developers can update content
+- **Cached**: Content is cached for offline access
+
+## CI/CD Pipeline
+
+Automated testing and deployment via GitHub Actions.
+
+### Workflow Steps
+
+1. **Lint & Type Check**: TypeScript validation
+2. **Run Tests**: Execute 29 unit tests
+3. **Build**: Compile and bundle application
+4. **Security Audit**: Check for vulnerabilities
+5. **Deploy**: Automatic deployment to Netlify (main branch only)
+
+### Setting Up
+
+1. Add GitHub Secrets in repository settings:
+   - `VITE_FIREBASE_*` - Firebase configuration
+   - `VITE_CLOUD_FUNCTION_URL` - Cloud Function URL
+   - `NETLIFY_AUTH_TOKEN` - Netlify deployment token
+   - `NETLIFY_SITE_ID` - Your Netlify site ID
+
+2. Push to `main` branch to trigger deployment
+
+### Local Testing
+
+```bash
+# Run full CI pipeline locally
+npm run type-check  # Type checking
+npm run test:run    # Tests
+npm run build       # Build
+```
+
 ## Project Structure
 
 ```
 ecc-portal/
+├── .github/
+│   └── workflows/
+│       └── ci-cd.yml      # GitHub Actions CI/CD pipeline
 ├── functions/              # Firebase Cloud Functions
 │   ├── index.js           # Rate limiting logic
 │   ├── package.json       # Function dependencies
 │   └── .eslintrc.cjs      # Linting configuration
 ├── public/
+│   ├── data/
+│   │   └── viewpoints.json # Viewpoints content (JSON CMS)
 │   ├── _redirects         # Netlify SPA redirects
-│   └── vite.svg          # Favicon
+│   └── vite.svg          # Favicon (also used as PWA icon)
 ├── src/
 │   ├── test/             # Test files
 │   │   ├── setup.ts      # Test environment setup
@@ -198,7 +327,7 @@ ecc-portal/
 ├── firebase.json         # Firebase configuration
 ├── firestore.rules       # Database security rules
 ├── netlify.toml          # Netlify configuration
-├── vite.config.js        # Vite build configuration
+├── vite.config.js        # Vite build + PWA configuration
 ├── tsconfig.json         # TypeScript configuration
 ├── tsconfig.node.json    # TypeScript config for build tools
 ├── SECURITY.md           # Security documentation
