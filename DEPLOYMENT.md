@@ -1,13 +1,25 @@
-# ECC Legislative Portal - Netlify Deployment Guide
+# ECC Legislative Portal - Complete Deployment Guide
 
 ## Overview
-This guide covers deploying the ECC Legislative Portal to Netlify for production use.
+This guide covers deploying the ECC Legislative Portal with all modern features including PWA support, analytics, CI/CD pipeline, and JSON-based content management.
 
 ## Prerequisites
 - Node.js 20+ installed locally
-- Netlify account
+- Netlify account (or alternative hosting)
 - Firebase project configured
-- Git repository (recommended)
+- GitHub repository (for CI/CD)
+- Git configured locally
+
+## Technology Stack
+
+- **Frontend**: TypeScript, HTML5, CSS3
+- **Build**: Vite 7.0 with PWA plugin
+- **Database**: Firebase Firestore
+- **Backend**: Firebase Cloud Functions
+- **Analytics**: Firebase Analytics
+- **PWA**: Workbox service workers
+- **CI/CD**: GitHub Actions
+- **Hosting**: Netlify
 
 ## Quick Deployment Steps
 
@@ -37,10 +49,21 @@ VITE_FIREBASE_STORAGE_BUCKET=your_project.firebasestorage.app
 VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
 VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
+VITE_CLOUD_FUNCTION_URL=https://us-central1-YOUR_PROJECT.cloudfunctions.net/submitEndorsement
 ```
+
+**Note**: The same environment variables should be added as GitHub Secrets for CI/CD (see CI/CD section below).
 
 ### 5. Deploy
 Click "Deploy site" - Netlify will build and deploy automatically.
+
+The build will:
+- Run TypeScript type checking
+- Execute unit tests
+- Generate service worker for offline support
+- Create PWA manifest
+- Optimize and bundle all assets
+- Deploy to your Netlify URL
 
 ## Manual Deployment (Alternative)
 
@@ -69,7 +92,270 @@ If you prefer to deploy manually:
 ### vite.config.js
 - Build optimizations
 - Code splitting configuration
+- PWA plugin configuration
+- Service worker generation
 - Development server settings
+
+## CI/CD Pipeline with GitHub Actions
+
+### Overview
+The project includes automated CI/CD via GitHub Actions that runs on every push and pull request.
+
+### Setup GitHub Actions
+
+1. **Add Repository Secrets**
+
+   Go to your GitHub repository → Settings → Secrets and variables → Actions
+
+   Add the following secrets:
+   ```
+   VITE_FIREBASE_API_KEY
+   VITE_FIREBASE_AUTH_DOMAIN
+   VITE_FIREBASE_PROJECT_ID
+   VITE_FIREBASE_STORAGE_BUCKET
+   VITE_FIREBASE_MESSAGING_SENDER_ID
+   VITE_FIREBASE_APP_ID
+   VITE_FIREBASE_MEASUREMENT_ID
+   VITE_CLOUD_FUNCTION_URL
+   NETLIFY_AUTH_TOKEN
+   NETLIFY_SITE_ID
+   ```
+
+2. **Get Netlify Tokens**
+
+   - **NETLIFY_AUTH_TOKEN**: User Settings → Applications → Personal access tokens → New access token
+   - **NETLIFY_SITE_ID**: Site settings → General → Site information → API ID
+
+3. **Workflow Triggers**
+
+   The CI/CD pipeline runs automatically on:
+   - Push to `main` or `develop` branches
+   - Pull requests to `main` or `develop` branches
+
+### Pipeline Stages
+
+The workflow consists of 5 jobs that run sequentially:
+
+1. **Lint & Type Check** (2-3 min)
+   - Validates TypeScript types
+   - Catches compilation errors early
+
+2. **Run Tests** (2-3 min)
+   - Executes all 29 unit tests
+   - Generates code coverage report
+   - Uploads coverage artifacts
+
+3. **Build Application** (1-2 min)
+   - Compiles TypeScript
+   - Bundles with Vite
+   - Generates PWA assets
+   - Creates service worker
+
+4. **Security Audit** (1-2 min)
+   - Runs `npm audit`
+   - Checks for known vulnerabilities
+
+5. **Deploy to Netlify** (1-2 min, main branch only)
+   - Deploys to production
+   - Creates PR preview deployments
+   - Posts deployment URL to PR
+
+### Viewing Pipeline Status
+
+- Check the **Actions** tab in your GitHub repository
+- View detailed logs for each job
+- Download artifacts (coverage reports, builds)
+
+### Manual Deployment Trigger
+
+To manually trigger deployment:
+```bash
+git push origin main
+```
+
+Or use GitHub UI:
+- Go to Actions tab
+- Select "CI/CD Pipeline" workflow
+- Click "Run workflow"
+
+## Progressive Web App (PWA) Features
+
+### What Gets Generated
+
+The build process automatically creates:
+
+1. **Service Worker** (`sw.js`)
+   - Precaches all static assets (384KB+)
+   - Implements runtime caching strategies
+   - Handles offline functionality
+
+2. **Web App Manifest** (`manifest.webmanifest`)
+   - App name, icons, theme colors
+   - Display mode and start URL
+   - Installation metadata
+
+3. **Workbox Files**
+   - Runtime caching logic
+   - Background sync capabilities
+
+### Caching Strategies
+
+**Static Assets**: Precached during installation
+- HTML, CSS, JavaScript
+- Images and fonts
+- Viewpoints JSON data
+
+**Firebase Firestore**: Network-first with 1-hour cache
+- Fresh data when online
+- Fallback to cache when offline
+
+**Cloud Functions**: Network-first with 5-minute cache
+- Recent data prioritized
+- Timeout after 10 seconds
+
+**Viewpoints JSON**: Stale-while-revalidate with 24-hour cache
+- Show cached content immediately
+- Update in background
+
+### Testing PWA Locally
+
+```bash
+npm run build
+npm run preview
+
+# Open browser to http://localhost:4173
+# Check Application tab in DevTools
+# Verify Service Worker is registered
+# Test offline mode by going offline in DevTools
+```
+
+### PWA Installation
+
+Users can install the app:
+- Desktop: Install button in address bar
+- Mobile: "Add to Home Screen" option
+- Appears as standalone app
+
+### Updating PWA
+
+When you deploy new code:
+1. Service worker detects new version
+2. Downloads updated assets in background
+3. Shows user prompt: "New content available. Reload?"
+4. User clicks OK to update
+
+## Content Management with JSON
+
+### Updating Viewpoints Content
+
+All viewpoint content is stored in `/public/data/viewpoints.json`.
+
+**To update content**:
+
+1. Edit the JSON file:
+   ```bash
+   vim public/data/viewpoints.json
+   ```
+
+2. Modify text, attribution, or add new viewpoints:
+   ```json
+   {
+     "viewpoints": [
+       {
+         "id": "viewpoint_1",
+         "text": "Your updated viewpoint text...",
+         "attribution": "— New Author, Title"
+       }
+     ]
+   }
+   ```
+
+3. Commit and push:
+   ```bash
+   git add public/data/viewpoints.json
+   git commit -m "Update viewpoint content"
+   git push
+   ```
+
+4. CI/CD automatically deploys the changes
+
+**No code changes required!** Content updates don't need TypeScript modifications.
+
+### Content Validation
+
+The JSON file should have:
+- Valid JSON syntax
+- Array of viewpoint objects
+- Required fields: `id`, `text`, `attribution`
+- Unique IDs (viewpoint_1, viewpoint_2, etc.)
+
+### Adding New Viewpoints
+
+To add a new viewpoint:
+
+1. Add to JSON file:
+   ```json
+   {
+     "id": "viewpoint_5",
+     "text": "New perspective...",
+     "attribution": "— Author Name"
+   }
+   ```
+
+2. Create Firestore document:
+   ```bash
+   # In Firebase Console
+   Collection: viewpoints
+   Document ID: viewpoint_5
+   Field: endorsements = 0
+   ```
+
+3. Update `VALID_VIEWPOINT_IDS` in main.ts (optional security enhancement)
+
+## Firebase Analytics Setup
+
+### Enable Analytics in Firebase
+
+1. Go to Firebase Console
+2. Select your project
+3. Analytics → Enable Analytics
+4. Choose or create a Google Analytics account
+
+### Verify Analytics Working
+
+After deployment:
+
+1. Visit your deployed site
+2. Navigate to different pages
+3. Submit an endorsement
+4. Wait 24-48 hours for data to appear in Firebase Console
+
+### Tracked Events
+
+The app automatically tracks:
+
+- **app_initialized**: App startup
+- **page_view**: Every page navigation (with page details)
+- **endorsement_submitted**: Successful endorsements (with viewpoint ID)
+- **endorsement_error**: Failed attempts (with error details)
+
+### Viewing Analytics
+
+Firebase Console → Analytics → Events
+
+Monitor:
+- Active users
+- Page views by page
+- Endorsement conversion rates
+- Error frequencies
+- User engagement metrics
+
+### Privacy Considerations
+
+- All tracking is anonymous
+- No personal data collected
+- Analytics can be blocked (app handles gracefully)
+- GDPR compliant by default
 
 ## Firebase Backend Deployment
 
@@ -125,10 +411,30 @@ For detailed security information, see [SECURITY.md](./SECURITY.md).
 
 ## Performance Optimizations
 
-- Code splitting (Firebase in separate chunk)
-- Asset caching (1 year for static assets)
-- Gzip compression
-- Modern ES2020 target for smaller bundles
+- **Code splitting**: Firebase in separate chunk (321KB)
+- **Asset caching**: 1 year for static assets, immediate for HTML
+- **Service Worker caching**: Intelligent caching strategies per resource type
+- **Gzip compression**: Automatic via Netlify
+- **Modern ES2020 target**: Smaller bundles for modern browsers
+- **PWA precaching**: 384KB+ assets cached on first visit
+- **Lazy loading**: Viewpoints loaded only when viewed
+- **Workbox optimization**: Background sync and update strategies
+
+### Build Size
+
+Typical production build:
+```
+dist/manifest.webmanifest           0.38 kB
+dist/index.html                    13.93 kB │ gzip:  4.56 kB
+dist/assets/index-[hash].css        7.58 kB │ gzip:  2.01 kB
+dist/assets/workbox-[hash].js       5.78 kB │ gzip:  2.40 kB
+dist/assets/index-[hash].js        40.07 kB │ gzip:  9.91 kB
+dist/assets/firebase-[hash].js    322.62 kB │ gzip: 80.86 kB
+dist/sw.js                         ~10 kB (service worker)
+dist/workbox-[hash].js             ~20 kB (workbox runtime)
+```
+
+Total precached: ~384 KB
 
 ## Troubleshooting
 
@@ -158,6 +464,81 @@ For detailed security information, see [SECURITY.md](./SECURITY.md).
 - Verify `_redirects` file is in `public` folder
 - Check `netlify.toml` redirect configuration
 - Ensure SPA routing is properly configured
+
+### PWA Issues
+
+**Service Worker Not Registering**:
+- Check browser console for errors
+- Verify HTTPS is enabled (required for SW)
+- Clear browser cache and reload
+- Check Application tab in DevTools → Service Workers
+
+**Offline Mode Not Working**:
+- Verify service worker is active
+- Check cache storage in DevTools
+- Ensure assets are precached (Application → Cache Storage)
+- Test in incognito mode for fresh state
+
+**Update Prompt Not Showing**:
+- New version requires different hash in assets
+- Check service worker update in DevTools
+- Force update: Unregister SW and reload
+- Verify Workbox configuration in vite.config.js
+
+**Install Button Not Appearing**:
+- Ensure manifest.webmanifest is accessible
+- Check manifest in DevTools → Application → Manifest
+- Verify HTTPS is enabled
+- Some browsers require engagement before showing prompt
+
+### CI/CD Pipeline Issues
+
+**Tests Failing in CI but Passing Locally**:
+- Check Node.js version matches (20+)
+- Verify `npm ci` is used (not `npm install`)
+- Check for environment-specific code
+- Review GitHub Actions logs
+
+**Deployment Not Triggering**:
+- Verify branch name matches workflow (main/develop)
+- Check GitHub Actions is enabled in repository
+- Verify secrets are set correctly
+- Check workflow file syntax (.github/workflows/ci-cd.yml)
+
+**Netlify Deployment Fails**:
+- Verify NETLIFY_AUTH_TOKEN secret is valid
+- Check NETLIFY_SITE_ID is correct
+- Review Netlify build logs
+- Ensure environment variables are set in both GitHub and Netlify
+
+### Analytics Not Showing Data
+
+**No Events Appearing**:
+- Wait 24-48 hours for initial data processing
+- Verify Firebase Analytics is enabled
+- Check browser console for analytics errors
+- Test with Firebase Debug View (add ?analytics_debug=true to URL)
+- Ensure ad blockers aren't interfering
+
+**Events Not Tracking**:
+- Check measurementId is correct in Firebase config
+- Verify analytics initialization in main.ts
+- Test in incognito mode
+- Check network tab for analytics requests
+
+### JSON Content Issues
+
+**Viewpoints Not Loading**:
+- Verify JSON file path: `/public/data/viewpoints.json`
+- Check JSON syntax validity (use JSONLint)
+- Ensure file is deployed (check dist/data/viewpoints.json)
+- Review browser console for fetch errors
+
+**Content Not Updating**:
+- Clear browser cache
+- Verify service worker cache is updated
+- Check deployment included JSON file changes
+- Force service worker update
 
 ## Custom Domain Setup
 
