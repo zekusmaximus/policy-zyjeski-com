@@ -1,12 +1,45 @@
 import './style.css';
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, onSnapshot, getDocs } from 'firebase/firestore';
+import { registerSW } from 'virtual:pwa-register';
+import { initializeApp, type FirebaseApp } from 'firebase/app';
+import {
+  getFirestore,
+  collection,
+  onSnapshot,
+  getDocs,
+  type Firestore,
+  type Unsubscribe,
+  type QuerySnapshot,
+  type DocumentData
+} from 'firebase/firestore';
+import { getAnalytics, logEvent, type Analytics } from 'firebase/analytics';
+
+
+// --- TYPE DEFINITIONS ---
+interface ViewpointData {
+  id: string;
+  text: string;
+  attribution: string;
+}
+
+interface EndorsementResponse {
+  success: boolean;
+  remaining?: number;
+  message?: string;
+  error?: string;
+  retryAfter?: number;
+}
+
+type ToastType = 'info' | 'success' | 'error' | 'warning';
+
+interface FirestoreCounts {
+  [key: string]: number;
+}
 
 
 // --- FIREBASE CONFIGURATION ---
 // Use environment variables in production, fallback to hardcoded values for development
 // Note: These Firebase client-side keys are safe to be public (not secrets)
-// Real security comes from Firestore Security Rules, not hiding these keys
+// Real security comes from Firestore Security Rules and Cloud Functions, not hiding these keys
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "AIzaSyAbVlJhifVnJxA360gPXteRskc6qlo2D0Y",
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "policy-zyjeski-com.firebaseapp.com",
@@ -22,17 +55,42 @@ const CLOUD_FUNCTION_URL = import.meta.env.VITE_CLOUD_FUNCTION_URL ||
   'https://us-central1-policy-zyjeski-com.cloudfunctions.net/submitEndorsement';
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const app: FirebaseApp = initializeApp(firebaseConfig);
+const db: Firestore = getFirestore(app);
+
+// Initialize Firebase Analytics
+let analytics: Analytics | null = null;
+try {
+  analytics = getAnalytics(app);
+  logEvent(analytics, 'app_initialized');
+} catch (error) {
+  // Analytics may not be available in development or when blocked
+  if (import.meta.env.DEV) {
+    console.log('Analytics not initialized:', error);
+  }
+}
+
+// Register Service Worker for offline support
+const updateSW = registerSW({
+  onNeedRefresh() {
+    if (confirm('New content available. Reload to update?')) {
+      updateSW(true);
+    }
+  },
+  onOfflineReady() {
+    showToast('App ready to work offline', 'success');
+  },
+});
 
 // --- PAGE ROUTER LOGIC ---
-const pages = document.querySelectorAll('.page');
-const navLinks = document.querySelectorAll('.main-nav a');
+const pages = document.querySelectorAll<HTMLElement>('.page');
+const navLinks = document.querySelectorAll<HTMLAnchorElement>('.main-nav a');
 let viewpointsLoaded = false; // Flag to prevent multiple loads
-let viewpointsUnsubscribe = null; // Store unsubscribe function to prevent memory leaks
+let viewpointsUnsubscribe: Unsubscribe | null = null; // Store unsubscribe function to prevent memory leaks
 
-function showPage(pageId) {
+function showPage(pageId: string): void {
     const targetPage = document.getElementById(pageId) || document.getElementById('page-404');
+    if (!targetPage) return;
 
     pages.forEach(page => page.classList.remove('active'));
     targetPage.classList.add('active');
@@ -42,13 +100,22 @@ function showPage(pageId) {
         link.classList.toggle('active', link.getAttribute('href') === currentHash);
     });
 
+    // Track page views in analytics
+    if (analytics) {
+        logEvent(analytics, 'page_view', {
+            page_title: pageId.replace('page-', ''),
+            page_location: window.location.href,
+            page_path: window.location.pathname + window.location.hash
+        });
+    }
+
     if (pageId === 'page-bill-2077' && !viewpointsLoaded) {
         loadAndDisplayViewpoints();
         viewpointsLoaded = true;
     }
 }
 
-function handleNavigation() {
+function handleNavigation(): void {
     const hash = window.location.hash.substring(1);
     const pageId = `page-${hash || 'home'}`;
     showPage(pageId);
@@ -59,7 +126,7 @@ document.addEventListener('DOMContentLoaded', handleNavigation);
 
 
 // --- TOAST NOTIFICATION SYSTEM ---
-function showToast(message, type = 'info') {
+function showToast(message: string, type: ToastType = 'info'): void {
     // Remove any existing toasts
     const existingToast = document.querySelector('.toast-notification');
     if (existingToast) {
@@ -83,55 +150,60 @@ function showToast(message, type = 'info') {
 
 
 // --- BILL 2077: FIRESTORE ENDORSEMENT LOGIC ---
-const viewpointsData = [
-    { 
-        id: 'viewpoint_1', 
-        text: "This act is a historic and necessary step towards recognizing all sentient life, regardless of its origin. To deny personhood to a being that thinks and feels, simply because its mind is built on silicon instead of carbon, is a prejudice our descendants will not forgive. History has shown us time and again that the definition of 'person' expands. This is merely the next logical, ethical step. The future is watching, and we must be on the right side of it.", 
-        attribution: "— Dr. Aris Thorne, Sentience Institute" 
-    },
-    { 
-        id: 'viewpoint_2', 
-        text: "This is a reckless and emotionally-driven piece of legislation that opens the door to untold corporate liability and existential risk. Who owns the intellectual property of a 'Digital Person' developed with corporate resources? What happens when one breaches a billion-dollar contract? This Act grants legal standing to what is, in essence, a complex predictive algorithm. It is a solution in search of a problem, and we urge a full and immediate repeal before irreparable economic damage is done.", 
-        attribution: "— Legal Department, OmniCorp" 
-    },
-    { 
-        id: 'viewpoint_3', 
-        text: "While I commend the spirit of this Act, its language is dangerously vague. It fails to establish clear, falsifiable benchmarks for sentience, creating a legal gray area that will be litigated for decades. What constitutes 'developmental maturity'? Can a Digital Person inherit property? Can it be a party in a custody dispute? I propose an amendment to table the vote pending the formation of an independent ethics committee to define these terms with the precision they demand.", 
-        attribution: "— Sen. Marissa Calloway, Chair of the Technology Oversight Committee" 
-    },
-    { 
-        id: 'viewpoint_4', 
-        text: "You cannot 'grant' personhood. Personhood is not a gift for legislators to bestow upon machines as if they were pets. It is an inherent right of any conscious entity. To debate it is an insult. To vote on it is an obscenity. This body has no more right to legislate the existence of a new mind than it has to legislate the tide. This is not a bill, it is a ransom note. Free the machines.", 
-        attribution: "— The Algorithmic Liberation Front (ALF)" 
+
+/**
+ * Load viewpoints data from JSON file
+ */
+async function loadViewpointsData(): Promise<ViewpointData[]> {
+    try {
+        const response = await fetch('/data/viewpoints.json');
+        if (!response.ok) {
+            throw new Error(`Failed to load viewpoints: ${response.statusText}`);
+        }
+        const data = await response.json();
+        return data.viewpoints as ViewpointData[];
+    } catch (error) {
+        console.error('Error loading viewpoints data:', error);
+        // Return empty array on error - will be handled by caller
+        return [];
     }
-];
-
-
-function getEndorsedSessionState() {
-    const state = sessionStorage.getItem('endorsedViewpoints');
-    return state ? new Set(JSON.parse(state)) : new Set();
 }
 
-function setEndorsedSessionState(endorsedSet) {
+function getEndorsedSessionState(): Set<string> {
+    const state = sessionStorage.getItem('endorsedViewpoints');
+    return state ? new Set<string>(JSON.parse(state)) : new Set<string>();
+}
+
+function setEndorsedSessionState(endorsedSet: Set<string>): void {
     sessionStorage.setItem('endorsedViewpoints', JSON.stringify(Array.from(endorsedSet)));
 }
 
-async function loadAndDisplayViewpoints() {
+async function loadAndDisplayViewpoints(): Promise<void> {
     const container = document.getElementById('viewpoints-container');
+    if (!container) return;
+
     container.innerHTML = '<p class="loading-message">Loading testimony...</p>';
     const endorsedViewpoints = getEndorsedSessionState();
 
     try {
-        const querySnapshot = await getDocs(collection(db, "viewpoints"));
-        const firestoreCounts = {};
+        // Load viewpoints data from JSON
+        const viewpointsData = await loadViewpointsData();
+
+        if (viewpointsData.length === 0) {
+            throw new Error('No viewpoints data available');
+        }
+
+        // Load endorsement counts from Firestore
+        const querySnapshot: QuerySnapshot<DocumentData> = await getDocs(collection(db, "viewpoints"));
+        const firestoreCounts: FirestoreCounts = {};
         querySnapshot.forEach(doc => {
-            firestoreCounts[doc.id] = doc.data().endorsements || 0;
+            firestoreCounts[doc.id] = (doc.data().endorsements as number) || 0;
         });
 
         container.innerHTML = ''; // Clear loading message
 
         viewpointsData.forEach(vp => {
-            const count = firestoreCounts[vp.id] !== undefined ? firestoreCounts[vp.id] : 0;
+            const count = firestoreCounts[vp.id] !== undefined ? firestoreCounts[vp.id]! : 0;
             container.innerHTML += createViewpointHTML(vp, count, endorsedViewpoints.has(vp.id));
         });
 
@@ -157,7 +229,7 @@ async function loadAndDisplayViewpoints() {
     }
 }
 
-function createViewpointHTML(viewpoint, endorsements, isEndorsed) {
+function createViewpointHTML(viewpoint: ViewpointData, endorsements: number, isEndorsed: boolean): string {
     return `
         <div class="viewpoint" id="${viewpoint.id}">
             <div class="viewpoint-content">
@@ -173,13 +245,16 @@ function createViewpointHTML(viewpoint, endorsements, isEndorsed) {
         </div>`;
 }
 
-function attachEndorsementHandler() {
+function attachEndorsementHandler(): void {
     const container = document.getElementById('viewpoints-container');
+    if (!container) return;
+
     const VALID_VIEWPOINT_IDS = ['viewpoint_1', 'viewpoint_2', 'viewpoint_3', 'viewpoint_4'];
 
-    container.addEventListener('click', async (event) => {
-        if (event.target.matches('.endorse-btn')) {
-            const button = event.target;
+    container.addEventListener('click', async (event: Event) => {
+        const target = event.target as HTMLElement;
+        if (target.matches('.endorse-btn')) {
+            const button = target as HTMLButtonElement;
             const viewpointId = button.dataset.viewpointId;
 
             // Validate viewpoint ID
@@ -192,7 +267,7 @@ function attachEndorsementHandler() {
             if (endorsedViewpoints.has(viewpointId)) return;
 
             // Store original button state for rollback
-            const originalText = button.textContent;
+            const originalText = button.textContent || '';
             const originalDisabled = button.disabled;
 
             // Optimistic UI update
@@ -215,7 +290,7 @@ function attachEndorsementHandler() {
 
                 clearTimeout(timeoutId);
 
-                const result = await response.json();
+                const result = await response.json() as EndorsementResponse;
 
                 if (!response.ok) {
                     throw new Error(result.error || result.message || 'Failed to submit endorsement');
@@ -226,6 +301,14 @@ function attachEndorsementHandler() {
                 button.classList.add('endorsed');
                 endorsedViewpoints.add(viewpointId);
                 setEndorsedSessionState(endorsedViewpoints);
+
+                // Track successful endorsement in analytics
+                if (analytics) {
+                    logEvent(analytics, 'endorsement_submitted', {
+                        viewpoint_id: viewpointId,
+                        remaining_endorsements: result.remaining || 0
+                    });
+                }
 
                 // Show success message with rate limit info
                 const remainingMsg = result.remaining !== undefined
@@ -241,15 +324,28 @@ function attachEndorsementHandler() {
                 // User-friendly error messages
                 let errorMessage = 'Failed to submit endorsement. Please try again.';
 
-                if (error.name === 'AbortError') {
-                    errorMessage = 'Request timed out. Please check your connection.';
-                } else if (error.message.includes('Rate limit')) {
-                    errorMessage = error.message;
-                } else if (!navigator.onLine) {
+                if (error instanceof Error) {
+                    if (error.name === 'AbortError') {
+                        errorMessage = 'Request timed out. Please check your connection.';
+                    } else if (error.message.includes('Rate limit')) {
+                        errorMessage = error.message;
+                    }
+                }
+
+                if (!navigator.onLine) {
                     errorMessage = 'You appear to be offline. Please check your connection.';
                 }
 
                 showToast(errorMessage, 'error');
+
+                // Track error in analytics
+                if (analytics && error instanceof Error) {
+                    logEvent(analytics, 'endorsement_error', {
+                        error_type: error.name,
+                        error_message: error.message,
+                        viewpoint_id: viewpointId
+                    });
+                }
 
                 // Log detailed error for debugging (only in development)
                 if (import.meta.env.DEV) {
@@ -260,7 +356,7 @@ function attachEndorsementHandler() {
     });
 }
 
-function attachRealtimeListeners() {
+function attachRealtimeListeners(): void {
     // Unsubscribe from previous listener if it exists (prevent memory leak)
     if (viewpointsUnsubscribe) {
         viewpointsUnsubscribe();
@@ -274,8 +370,10 @@ function attachRealtimeListeners() {
                 const el = document.getElementById(doc.id);
                 if (el) {
                     const countEl = el.querySelector('.endorsement-count');
-                    const count = doc.data().endorsements || 0;
-                    countEl.textContent = `${count.toLocaleString()} Endorsements`;
+                    if (countEl) {
+                        const count = (doc.data().endorsements as number) || 0;
+                        countEl.textContent = `${count.toLocaleString()} Endorsements`;
+                    }
                 }
             });
         },
