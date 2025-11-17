@@ -71,19 +71,57 @@ If you prefer to deploy manually:
 - Code splitting configuration
 - Development server settings
 
+## Firebase Backend Deployment
+
+### Deploy Security Rules
+
+Before deploying the frontend, deploy Firestore security rules:
+
+```bash
+firebase deploy --only firestore:rules
+```
+
+This deploys the `firestore.rules` file which protects your database from unauthorized access.
+
+### Deploy Cloud Functions
+
+Deploy the rate-limiting Cloud Function:
+
+```bash
+# Install function dependencies
+cd functions
+npm install
+
+# Return to root and deploy
+cd ..
+firebase deploy --only functions
+```
+
+After deployment, note your Cloud Function URL (shown in terminal output).
+
 ## Environment Variables
 
 The app supports both environment variables and fallback values:
 - Production: Uses `VITE_*` environment variables
 - Development: Falls back to hardcoded values
 
+**Required Environment Variables:**
+- All Firebase config variables (see README.md)
+- `VITE_CLOUD_FUNCTION_URL` - Your deployed Cloud Function URL
+
 ## Security Features
 
 The deployment includes:
-- Content Security Policy headers
-- XSS protection
-- Frame options security
-- Referrer policy configuration
+- **Firestore Security Rules**: Database-level access control
+- **Server-side Rate Limiting**: IP-based rate limiting via Cloud Functions (10/hour)
+- **Content Security Policy headers**: Prevents XSS and injection attacks
+- **XSS protection**: Browser-level XSS filtering
+- **Frame options security**: Prevents clickjacking
+- **Referrer policy configuration**: Controls referrer information
+- **Input validation**: Client and server-side validation
+- **Error handling**: Comprehensive error handling with user feedback
+
+For detailed security information, see [SECURITY.md](./SECURITY.md).
 
 ## Performance Optimizations
 
@@ -102,7 +140,19 @@ The deployment includes:
 ### Firebase Connection Issues
 - Verify environment variables are set correctly
 - Check Firebase project permissions
-- Ensure Firestore rules allow read/write access
+- Ensure Firestore security rules are deployed
+- Verify Cloud Functions are deployed and accessible
+
+### Cloud Function Issues
+- Check Cloud Function URL is correct in environment variables
+- Verify Cloud Function deployed successfully: `firebase functions:list`
+- Check Cloud Function logs: `firebase functions:log`
+- Ensure CORS is enabled (already configured in function)
+
+### Rate Limiting Issues
+- Users hitting rate limit will see error message with retry time
+- Rate limit is 10 endorsements per hour per IP address
+- Adjust limits in `functions/index.js` if needed
 
 ### Routing Issues
 - Verify `_redirects` file is in `public` folder

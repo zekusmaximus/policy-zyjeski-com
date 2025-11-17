@@ -9,13 +9,16 @@ A fictional legislative portal for the East Coast Conglomerate, featuring the la
 - **Interactive Testimony**: Users can endorse different viewpoints on legislation
 - **Responsive Design**: Works on desktop and mobile devices
 - **Production Ready**: Optimized for deployment on Netlify
+- **Security First**: Rate limiting, input validation, and Firestore security rules
+- **Error Handling**: Comprehensive error handling with user-friendly feedback
 
 ## Technology Stack
 
 - **Frontend**: Vanilla JavaScript, HTML5, CSS3
 - **Build Tool**: Vite 7.0
 - **Database**: Firebase Firestore
-- **Hosting**: Netlify (recommended)
+- **Backend**: Firebase Cloud Functions (for rate limiting)
+- **Hosting**: Netlify (recommended) or Firebase Hosting
 - **Styling**: Custom CSS with CSS Variables
 
 ## Getting Started
@@ -48,6 +51,7 @@ A fictional legislative portal for the East Coast Conglomerate, featuring the la
 
 ## Firebase Setup
 
+### 1. Create Firebase Project
 1. Create a Firebase project at [Firebase Console](https://console.firebase.google.com)
 2. Enable Firestore Database
 3. Create a collection named `viewpoints` with documents:
@@ -56,8 +60,34 @@ A fictional legislative portal for the East Coast Conglomerate, featuring the la
    - `viewpoint_3` with field `endorsements: 0`
    - `viewpoint_4` with field `endorsements: 0`
 
+### 2. Deploy Security Rules
+Deploy Firestore security rules to protect your database:
+
+```bash
+firebase deploy --only firestore:rules
+```
+
+### 3. Deploy Cloud Functions
+Install dependencies and deploy the rate-limiting Cloud Function:
+
+```bash
+cd functions
+npm install
+cd ..
+firebase deploy --only functions
+```
+
+### 4. Update Environment Variables
+Add the Cloud Function URL to your environment:
+
+```
+VITE_CLOUD_FUNCTION_URL=https://us-central1-YOUR_PROJECT.cloudfunctions.net/submitEndorsement
+```
+
 ### Security Note
-The Firebase configuration keys in this project are client-side keys that are safe to be public. GitHub may flag them as potential secrets, but this is a false positive. Firebase client-side keys are designed to be embedded in public applications and real security comes from Firestore Security Rules, not from hiding these keys.
+The Firebase configuration keys in this project are client-side keys that are safe to be public. GitHub may flag them as potential secrets, but this is a false positive. Firebase client-side keys are designed to be embedded in public applications and **real security comes from Firestore Security Rules and Cloud Functions**, not from hiding these keys.
+
+For detailed security information, see [SECURITY.md](./SECURITY.md).
 
 ## Environment Variables
 
@@ -71,6 +101,7 @@ VITE_FIREBASE_STORAGE_BUCKET=your_project.firebasestorage.app
 VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 VITE_FIREBASE_APP_ID=your_app_id
 VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
+VITE_CLOUD_FUNCTION_URL=https://us-central1-YOUR_PROJECT.cloudfunctions.net/submitEndorsement
 ```
 
 ## Deployment
@@ -85,20 +116,40 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions.
 4. Add environment variables in Netlify dashboard
 5. Deploy!
 
+## Security
+
+This application implements multiple security layers:
+
+- **Firestore Security Rules**: Database-level access control prevents direct writes
+- **Server-side Rate Limiting**: Cloud Functions enforce IP-based rate limits (10 endorsements/hour)
+- **Input Validation**: All user inputs validated client and server-side
+- **Error Handling**: Comprehensive error handling with rollback on failures
+- **Memory Leak Prevention**: Proper cleanup of Firebase listeners
+- **Request Timeouts**: Network requests protected with 10-second timeouts
+
+See [SECURITY.md](./SECURITY.md) for detailed security documentation.
+
 ## Project Structure
 
 ```
 ecc-portal/
+├── functions/              # Firebase Cloud Functions
+│   ├── index.js           # Rate limiting logic
+│   ├── package.json       # Function dependencies
+│   └── .eslintrc.cjs      # Linting configuration
 ├── public/
-│   ├── _redirects          # Netlify SPA redirects
-│   └── vite.svg           # Favicon
+│   ├── _redirects         # Netlify SPA redirects
+│   └── vite.svg          # Favicon
 ├── src/
-│   ├── main.js            # Main application logic
-│   └── style.css          # Application styles
-├── index.html             # Main HTML template
-├── netlify.toml           # Netlify configuration
-├── vite.config.js         # Vite build configuration
-└── package.json           # Dependencies and scripts
+│   ├── main.js           # Main application logic
+│   └── style.css         # Application styles
+├── index.html            # Main HTML template
+├── firebase.json         # Firebase configuration
+├── firestore.rules       # Database security rules
+├── netlify.toml          # Netlify configuration
+├── vite.config.js        # Vite build configuration
+├── SECURITY.md           # Security documentation
+└── package.json          # Dependencies and scripts
 ```
 
 ## Contributing

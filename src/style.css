@@ -233,3 +233,105 @@ body {
         border-color: var(--border-color);
     }
 }
+
+/* --- TOAST NOTIFICATIONS --- */
+.toast-notification {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary-color);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 10000;
+    min-width: 300px;
+    max-width: 500px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 500;
+    transition: bottom 0.3s ease-in-out;
+}
+
+.toast-notification.show {
+    bottom: 30px;
+}
+
+.toast-notification.toast-success {
+    background-color: #28a745;
+}
+
+.toast-notification.toast-error {
+    background-color: #dc3545;
+}
+
+.toast-notification.toast-warning {
+    background-color: #ffc107;
+    color: #333;
+}
+
+.toast-notification.toast-info {
+    background-color: var(--primary-color);
+}
+
+/* --- ERROR MESSAGE STYLING --- */
+.error-message {
+    background: #fff3cd;
+    border: 2px solid #ffc107;
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    margin: 20px 0;
+}
+
+.error-message h3 {
+    color: #856404;
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+.error-message p {
+    color: #856404;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.retry-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.retry-btn:hover {
+    background-color: #39558a;
+}
+
+/* --- LOADING MESSAGE --- */
+.loading-message {
+    text-align: center;
+    padding: 40px;
+    color: var(--secondary-color);
+    font-style: italic;
+    font-size: 16px;
+}
+
+/* --- MOBILE RESPONSIVE TOAST --- */
+@media (max-width: 768px) {
+    .toast-notification {
+        min-width: 250px;
+        max-width: 90%;
+        font-size: 14px;
+        padding: 14px 20px;
+    }
+
+    .toast-notification.show {
+        bottom: 20px;
+    }
+}

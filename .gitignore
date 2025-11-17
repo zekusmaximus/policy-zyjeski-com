@@ -38,3 +38,10 @@ Thumbs.db
 .Spotlight-V100
 .Trashes
 ehthumbs.db
+
+# Firebase
+.firebase/
+.firebaserc
+firebase-debug.log
+firestore-debug.log
+ui-debug.log

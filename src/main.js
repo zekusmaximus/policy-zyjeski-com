@@ -1,6 +1,6 @@
 import './style.css';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, doc, onSnapshot, updateDoc, increment, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, onSnapshot, getDocs } from 'firebase/firestore';
 
 
 // --- FIREBASE CONFIGURATION ---
@@ -17,6 +17,10 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || "G-WRWW11X8J1"
 };
 
+// Cloud Function URL for endorsement submission
+const CLOUD_FUNCTION_URL = import.meta.env.VITE_CLOUD_FUNCTION_URL ||
+  'https://us-central1-policy-zyjeski-com.cloudfunctions.net/submitEndorsement';
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -25,10 +29,11 @@ const db = getFirestore(app);
 const pages = document.querySelectorAll('.page');
 const navLinks = document.querySelectorAll('.main-nav a');
 let viewpointsLoaded = false; // Flag to prevent multiple loads
+let viewpointsUnsubscribe = null; // Store unsubscribe function to prevent memory leaks
 
 function showPage(pageId) {
     const targetPage = document.getElementById(pageId) || document.getElementById('page-404');
-    
+
     pages.forEach(page => page.classList.remove('active'));
     targetPage.classList.add('active');
 
@@ -51,6 +56,30 @@ function handleNavigation() {
 
 window.addEventListener('hashchange', handleNavigation);
 document.addEventListener('DOMContentLoaded', handleNavigation);
+
+
+// --- TOAST NOTIFICATION SYSTEM ---
+function showToast(message, type = 'info') {
+    // Remove any existing toasts
+    const existingToast = document.querySelector('.toast-notification');
+    if (existingToast) {
+        existingToast.remove();
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `toast-notification toast-${type}`;
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    // Trigger animation
+    setTimeout(() => toast.classList.add('show'), 10);
+
+    // Auto-dismiss after 5 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 5000);
+}
 
 
 // --- BILL 2077: FIRESTORE ENDORSEMENT LOGIC ---
@@ -89,7 +118,7 @@ function setEndorsedSessionState(endorsedSet) {
 
 async function loadAndDisplayViewpoints() {
     const container = document.getElementById('viewpoints-container');
-    container.innerHTML = ''; 
+    container.innerHTML = '<p class="loading-message">Loading testimony...</p>';
     const endorsedViewpoints = getEndorsedSessionState();
 
     try {
@@ -98,9 +127,11 @@ async function loadAndDisplayViewpoints() {
         querySnapshot.forEach(doc => {
             firestoreCounts[doc.id] = doc.data().endorsements || 0;
         });
-        
+
+        container.innerHTML = ''; // Clear loading message
+
         viewpointsData.forEach(vp => {
-            const count = firestoreCounts[vp.id] !== undefined ? firestoreCounts[vp.id] : 'N/A';
+            const count = firestoreCounts[vp.id] !== undefined ? firestoreCounts[vp.id] : 0;
             container.innerHTML += createViewpointHTML(vp, count, endorsedViewpoints.has(vp.id));
         });
 
@@ -108,8 +139,21 @@ async function loadAndDisplayViewpoints() {
         attachEndorsementHandler();
 
     } catch (error) {
-        console.error("Error loading viewpoints:", error);
-        container.innerHTML = "<p>Error connecting to the public record. Please check console.</p>";
+        // User-friendly error message
+        container.innerHTML = `
+            <div class="error-message">
+                <h3>Unable to Load Testimony</h3>
+                <p>We're having trouble connecting to the legislative database.
+                   Please check your internet connection and try refreshing the page.</p>
+                <button onclick="window.location.reload()" class="retry-btn">Retry</button>
+            </div>`;
+
+        showToast('Failed to load testimony data', 'error');
+
+        // Log detailed error for debugging (only in development)
+        if (import.meta.env.DEV) {
+            console.error('Error loading viewpoints:', error);
+        }
     }
 }
 
@@ -131,39 +175,116 @@ function createViewpointHTML(viewpoint, endorsements, isEndorsed) {
 
 function attachEndorsementHandler() {
     const container = document.getElementById('viewpoints-container');
+    const VALID_VIEWPOINT_IDS = ['viewpoint_1', 'viewpoint_2', 'viewpoint_3', 'viewpoint_4'];
+
     container.addEventListener('click', async (event) => {
         if (event.target.matches('.endorse-btn')) {
             const button = event.target;
             const viewpointId = button.dataset.viewpointId;
-            
+
+            // Validate viewpoint ID
+            if (!viewpointId || !VALID_VIEWPOINT_IDS.includes(viewpointId)) {
+                showToast('Invalid viewpoint selection', 'error');
+                return;
+            }
+
             const endorsedViewpoints = getEndorsedSessionState();
             if (endorsedViewpoints.has(viewpointId)) return;
 
-            button.disabled = true;
-            button.textContent = 'Endorsed';
-            button.classList.add('endorsed');
+            // Store original button state for rollback
+            const originalText = button.textContent;
+            const originalDisabled = button.disabled;
 
-            endorsedViewpoints.add(viewpointId);
-            setEndorsedSessionState(endorsedViewpoints);
+            // Optimistic UI update
+            button.disabled = true;
+            button.textContent = 'Submitting...';
 
             try {
-                await updateDoc(doc(db, 'viewpoints', viewpointId), { endorsements: increment(1) });
+                // Call Cloud Function with timeout
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+                const response = await fetch(CLOUD_FUNCTION_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ viewpointId }),
+                    signal: controller.signal,
+                });
+
+                clearTimeout(timeoutId);
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || result.message || 'Failed to submit endorsement');
+                }
+
+                // Success - update UI and session storage
+                button.textContent = 'Endorsed';
+                button.classList.add('endorsed');
+                endorsedViewpoints.add(viewpointId);
+                setEndorsedSessionState(endorsedViewpoints);
+
+                // Show success message with rate limit info
+                const remainingMsg = result.remaining !== undefined
+                    ? ` (${result.remaining} remaining this hour)`
+                    : '';
+                showToast(`Endorsement recorded${remainingMsg}`, 'success');
+
             } catch (error) {
-                console.error("Failed to submit endorsement:", error);
+                // Rollback UI on error
+                button.disabled = originalDisabled;
+                button.textContent = originalText;
+
+                // User-friendly error messages
+                let errorMessage = 'Failed to submit endorsement. Please try again.';
+
+                if (error.name === 'AbortError') {
+                    errorMessage = 'Request timed out. Please check your connection.';
+                } else if (error.message.includes('Rate limit')) {
+                    errorMessage = error.message;
+                } else if (!navigator.onLine) {
+                    errorMessage = 'You appear to be offline. Please check your connection.';
+                }
+
+                showToast(errorMessage, 'error');
+
+                // Log detailed error for debugging (only in development)
+                if (import.meta.env.DEV) {
+                    console.error('Endorsement submission failed:', error);
+                }
             }
         }
     });
 }
 
 function attachRealtimeListeners() {
-    onSnapshot(collection(db, "viewpoints"), (snapshot) => {
-        snapshot.forEach((doc) => {
-            const el = document.getElementById(doc.id);
-            if (el) {
-                const countEl = el.querySelector('.endorsement-count');
-                const count = doc.data().endorsements || 0;
-                countEl.textContent = `${count.toLocaleString()} Endorsements`;
+    // Unsubscribe from previous listener if it exists (prevent memory leak)
+    if (viewpointsUnsubscribe) {
+        viewpointsUnsubscribe();
+    }
+
+    // Subscribe to real-time updates and store the unsubscribe function
+    viewpointsUnsubscribe = onSnapshot(
+        collection(db, "viewpoints"),
+        (snapshot) => {
+            snapshot.forEach((doc) => {
+                const el = document.getElementById(doc.id);
+                if (el) {
+                    const countEl = el.querySelector('.endorsement-count');
+                    const count = doc.data().endorsements || 0;
+                    countEl.textContent = `${count.toLocaleString()} Endorsements`;
+                }
+            });
+        },
+        (error) => {
+            // Handle listener errors gracefully
+            if (import.meta.env.DEV) {
+                console.error('Error in real-time listener:', error);
             }
-        });
-    });
+            showToast('Lost connection to live updates', 'warning');
+        }
+    );
 }
