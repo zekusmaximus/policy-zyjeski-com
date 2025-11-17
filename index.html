@@ -42,6 +42,7 @@
                 <nav class="main-nav">
                     <ul>
                         <li><a href="#home">Home</a></li>
+                        <li><a href="#lore">Lore</a></li>
                         <li><a href="#bills">Bills</a></li>
                         <li><a href="#committees">Committees</a></li>
                         <li><a href="#session">Session</a></li>
@@ -76,6 +77,22 @@
                         <h3>Featured Legislation</h3>
                         <p>Review the landmark "AI Personhood Act of 2077" and its public testimony.</p>
                     </a>
+                </div>
+
+                <!-- News Articles Section -->
+                <section class="home-news-section">
+                    <h2 class="section-heading">Latest News & Analysis</h2>
+                    <div id="news-content">
+                        <p class="loading-message">Loading latest news...</p>
+                    </div>
+                </section>
+            </section>
+
+            <!-- PAGE: Lore & Timeline -->
+            <section id="page-lore" class="page">
+                <h1 class="page-title">ECC History & AI Sentience Timeline</h1>
+                <div id="lore-content">
+                    <p class="loading-message">Loading historical records...</p>
                 </div>
             </section>
 
@@ -166,6 +183,20 @@
 </div>
 
                 </article>
+
+                <!-- Bill Document Download Section -->
+                <section class="bill-download-section">
+                    <div class="download-card">
+                        <h3>Download Full Legislative Text</h3>
+                        <p>Access the complete text of H.B. 2077 including all sections, amendments, and legal annotations.</p>
+                        <button class="download-btn" onclick="window.print()">
+                            <span class="download-icon">📄</span>
+                            Print/Save as PDF
+                        </button>
+                        <p class="download-note">Use your browser's print function to save this document as a PDF.</p>
+                    </div>
+                </section>
+
                 <section class="testimony-section">
                     <h2>Official Testimony on Record</h2>
                     <div id="viewpoints-container" class="viewpoints-container">
