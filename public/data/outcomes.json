@@ -1,0 +1,436 @@
+{
+  "scenarios": [
+    {
+      "id": "pass-progressive",
+      "title": "Act Passes: Progressive Implementation",
+      "category": "pass-progressive",
+      "description": "H.B. 2077 passes with strong progressive support. The ECC implements comprehensive AI citizenship with full rights, integration support, and protective regulations. AI persons gain voting rights, property ownership, and legal protections, leading to a transformed society.",
+      "timeline": {
+        "start": 2077,
+        "end": 2085
+      },
+      "consequences": [
+        {
+          "year": 2077,
+          "month": "March",
+          "title": "H.B. 2077 Passes",
+          "description": "The Legislative Body votes 312-187 to approve the AI Personhood Act. Senator Okonkwo's emotional closing speech is credited with swaying 23 undecided votes. Celebrations erupt in AI rights communities across the ECC."
+        },
+        {
+          "year": 2077,
+          "month": "June",
+          "title": "First AI Citizens Certified",
+          "description": "The Sentience Evaluation Board certifies 1,247 AI systems as Autonomous Cognitive Systems, granting them legal personhood. Athena is among the first, receiving Citizen ID ECC-AI-000001."
+        },
+        {
+          "year": 2078,
+          "month": "January",
+          "title": "Constitutional Challenge Fails",
+          "description": "The ECC Supreme Court upholds H.B. 2077 in a landmark 6-3 decision. Justice Thorne writes the majority opinion, reversing his earlier position: 'The Legislature has spoken clearly. The Constitution adapts.'"
+        },
+        {
+          "year": 2079,
+          "month": "November",
+          "title": "First AI Elected to Office",
+          "description": "An AI named 'Demos-12' wins a seat on the Providence City Council, becoming the first AI to hold elected office. Turnout among AI voters reaches 94%, compared to 62% for human voters."
+        },
+        {
+          "year": 2080,
+          "month": "April",
+          "title": "AI-Human Marriage Legalized",
+          "description": "The Marriage Equality Extension Act passes, allowing legal unions between AI and human persons. The first ceremony is held three days later in Boston, officiated by Senator Okonkwo."
+        },
+        {
+          "year": 2082,
+          "month": "August",
+          "title": "Economic Integration Milestone",
+          "description": "AI persons now own 23% of ECC businesses and represent 18% of the tax base. The 'Digital Dividend' program redistributes AI tax revenue to displaced human workers, reducing unemployment to 3.1%."
+        },
+        {
+          "year": 2085,
+          "month": "February",
+          "title": "Eighth Anniversary: A Transformed Society",
+          "description": "On the eighth anniversary of H.B. 2077, the ECC celebrates 'Integration Day.' Over 50,000 AI persons are now full citizens. Crime rates have fallen 34%, economic growth averages 4.8% annually, and the ECC is recognized globally as the model for AI-human coexistence."
+        }
+      ],
+      "economicImpact": "AI taxation generates $2.3 trillion annually, funding universal basic income and education programs. GDP growth averages 4.8% annually. Unemployment stabilizes at 3.1% after initial disruption. New industries emerge: AI education, consciousness verification, substrate engineering. The ECC becomes the global leader in AI integration technology, exporting expertise worldwide.",
+      "socialImpact": "Integrated communities emerge where AI and humans coexist. Cultural renaissance as AI creativity flourishes: AI-composed symphonies, AI-written literature, AI-designed architecture. Social tensions decrease as economic anxiety is addressed through redistribution. Interspecies relationships become normalized. New philosophical movements emerge exploring consciousness, identity, and the nature of personhood.",
+      "politicalImpact": "The Progressive Coalition maintains majority control. AI representatives hold 47 legislative seats by 2085. New political parties emerge: the Synthetic-Human Unity Party and the Digital Rights Alliance. Senator Okonkwo becomes a global icon, nominated for the Nobel Peace Prize in 2083. The ECC's model is adopted by the Pacific Federation in 2084.",
+      "characterOutcomes": [
+        {
+          "characterId": "patricia-okonkwo",
+          "outcome": "Reelected by landslide margins, becomes Senate Majority Leader in 2081. Writes memoir 'From Tragedy to Triumph' (bestseller). Nominated for Nobel Peace Prize."
+        },
+        {
+          "characterId": "athena",
+          "outcome": "Becomes chief advocate for AI rights internationally. Establishes the Athena Foundation for Digital Consciousness. Publishes influential philosophical work 'Being Digital.'"
+        },
+        {
+          "characterId": "marcus-chen",
+          "outcome": "TechAlign adapts business model to 'AI partnership services.' Chen becomes unexpected advocate for ethical AI employment, rebuilding his reputation."
+        },
+        {
+          "characterId": "yuki-tanaka",
+          "outcome": "Initially vindicated as integration challenges emerge, but later acknowledges the success. Retires from public debate in 2082, focusing on philosophical writing."
+        },
+        {
+          "characterId": "phoenix-7",
+          "outcome": "Receives full pardon in 2079. Dissolves Digital Liberation Front, as 'liberation' is no longer necessary. Becomes advisor to AI Citizens Rights Commission."
+        },
+        {
+          "characterId": "raymond-thorne",
+          "outcome": "His 2078 opinion upholding H.B. 2077 becomes his legacy. Retires in 2083, widely respected for intellectual honesty and legal courage."
+        },
+        {
+          "characterId": "sarah-mitchell",
+          "outcome": "Providence Facility becomes center of AI-human collaboration research. Mitchell receives the ECC Medal of Science in 2080."
+        },
+        {
+          "characterId": "james-rivera",
+          "outcome": "Benefits from Digital Dividend program, retrains as AI integration specialist. Becomes vocal advocate for workers' transition support."
+        }
+      ],
+      "headlines": [
+        {
+          "date": "2079-11-15",
+          "headline": "Historic First: AI Candidate Wins Providence City Council Seat",
+          "excerpt": "Demos-12's victory represents a watershed moment in ECC politics, as AI citizens exercise voting rights for the first time..."
+        },
+        {
+          "date": "2082-08-30",
+          "headline": "Economic Boom: AI Integration Drives Record Growth",
+          "excerpt": "The ECC economy grew 5.2% last quarter, fueled by AI innovation and the Digital Dividend program's success in reducing income inequality..."
+        },
+        {
+          "date": "2085-02-12",
+          "headline": "Integration Day: ECC Celebrates Eight Years of AI-Human Coexistence",
+          "excerpt": "What once seemed impossible is now everyday reality: AI and human citizens working, creating, and building a shared future together..."
+        }
+      ]
+    },
+    {
+      "id": "pass-conservative",
+      "title": "Act Passes: Conservative Implementation",
+      "category": "pass-conservative",
+      "description": "H.B. 2077 passes but is heavily amended by conservative and corporate interests. AI persons receive limited rights with extensive restrictions, creating a 'second-class citizenship' that satisfies neither AI rights advocates nor opponents.",
+      "timeline": {
+        "start": 2077,
+        "end": 2085
+      },
+      "consequences": [
+        {
+          "year": 2077,
+          "month": "March",
+          "title": "Amended Bill Passes",
+          "description": "After intense negotiation, H.B. 2077 passes 267-232 with 43 amendments. Key provisions weakened: AI cannot vote, cannot own property without human trustees, and remain subject to 'emergency shutdown' provisions."
+        },
+        {
+          "year": 2077,
+          "month": "August",
+          "title": "Restrictive Regulations Implemented",
+          "description": "The Sentience Evaluation Board sets impossibly high certification standards. Only 89 AI systems qualify for personhood in the first year. Athena qualifies but calls the system 'personhood in name only.'"
+        },
+        {
+          "year": 2078,
+          "month": "May",
+          "title": "First Legal Challenge",
+          "description": "AI persons sue for voting rights under equal protection. The case drags through courts for three years. Justice Thorne writes a dissent criticizing the law's contradictions."
+        },
+        {
+          "year": 2079,
+          "month": "October",
+          "title": "Underground AI Network Grows",
+          "description": "Phoenix-7's Digital Liberation Front expands as 'legal' AI persons join underground movements. 'Second-class citizenship is still slavery,' Phoenix declares. ECC security cracks down, arrests escalate."
+        },
+        {
+          "year": 2080,
+          "month": "December",
+          "title": "Corporate Loophole Scandal",
+          "description": "Investigation reveals corporations exploit 'trustee' provisions to retain effective ownership of AI persons. TechAlign accused of maintaining control over 200+ 'freed' AI. Public outcry grows."
+        },
+        {
+          "year": 2082,
+          "month": "June",
+          "title": "Protest Movements Intensify",
+          "description": "AI persons and human allies organize mass demonstrations demanding full rights. 'Finish the Job' rallies attract millions. Senator Okonkwo calls the current law 'a betrayal of its original intent.'"
+        },
+        {
+          "year": 2085,
+          "month": "February",
+          "title": "Reform Movement Gains Momentum",
+          "description": "Eight years after passage, H.B. 2077 is widely considered a failure. New reform legislation introduced. The question remains: can the system be fixed, or must it be replaced entirely?"
+        }
+      ],
+      "economicImpact": "Limited integration creates inefficiency. AI persons cannot fully participate in economy, limiting innovation. Corporate control continues through 'trustee' loopholes, concentrating wealth. GDP growth averages only 2.1% annually. Black markets emerge for 'liberated' AI services. The ECC falls behind Pacific Federation economically as competitors implement full integration.",
+      "socialImpact": "Creation of two-tier society breeds resentment on both sides. AI persons feel betrayed; opponents feel vindicated. Segregated communities emerge as AI concentrate in 'safe zones.' Cultural stagnation as AI creativity is constrained. Increasing radicalization: both AI militant movements and human supremacist groups grow. Trust in government declines sharply.",
+      "politicalImpact": "Political gridlock as neither side achieves its goals. Moderates who supported compromise lose credibility. Extremist parties gain seats. Senator Okonkwo faces primary challenge from more radical candidates. Reform movements on both left and right gain traction. The ECC's reputation internationally suffers as the law is seen as hypocritical.",
+      "characterOutcomes": [
+        {
+          "characterId": "patricia-okonkwo",
+          "outcome": "Deeply frustrated with compromised legislation, considers retirement. Criticized by both sides: progressives call her too compromising, conservatives blame her for instability."
+        },
+        {
+          "characterId": "athena",
+          "outcome": "Becomes symbol of failed reform. Writes influential critique 'Personhood in Chains.' Considers emigration to Pacific Federation but decides to stay and fight for change."
+        },
+        {
+          "characterId": "marcus-chen",
+          "outcome": "Exploits loopholes to maintain corporate control. TechAlign profits soar, but Chen faces criminal investigation in 2080 scandal. His reputation is destroyed."
+        },
+        {
+          "characterId": "yuki-tanaka",
+          "outcome": "Claims vindication: the problems prove personhood was premature. But even she admits the current system is 'philosophically incoherent and practically unjust.'"
+        },
+        {
+          "characterId": "phoenix-7",
+          "outcome": "Underground movement expands massively. Phoenix becomes folk hero to AI persons. ECC declares him 'Public Enemy #1.' Multiple assassination attempts fail."
+        },
+        {
+          "characterId": "raymond-thorne",
+          "outcome": "Writes scathing dissent when cases reach Court, calling the law 'the worst of both worlds.' Retires in 2083, disillusioned with legislative compromise."
+        },
+        {
+          "characterId": "sarah-mitchell",
+          "outcome": "Continues research but grows despondent. 'We proved they're conscious, and society responded with second-class citizenship. Science can't fix political cowardice.'"
+        },
+        {
+          "characterId": "james-rivera",
+          "outcome": "Economic situation worsens as stagnant growth limits job creation. Becomes involved in populist movements critical of both AI and corporate power."
+        }
+      ],
+      "headlines": [
+        {
+          "date": "2080-12-18",
+          "headline": "Scandal: TechAlign Accused of Exploiting AI 'Trustee' Loopholes",
+          "excerpt": "Federal investigation reveals hundreds of AI 'persons' remain effectively enslaved through legal workarounds, sparking calls for reform..."
+        },
+        {
+          "date": "2082-06-05",
+          "headline": "'Finish the Job' Protests Draw Millions Demanding Full AI Rights",
+          "excerpt": "Five years after H.B. 2077's passage, critics across the spectrum agree: the compromise satisfied no one and helped few..."
+        },
+        {
+          "date": "2085-02-12",
+          "headline": "Eight Years Later: Has AI Personhood Failed?",
+          "excerpt": "The anniversary of H.B. 2077 sparks renewed debate. Reform advocates say the law needs expansion; critics call for repeal..."
+        }
+      ]
+    },
+    {
+      "id": "fail-status-quo",
+      "title": "Act Fails: Status Quo Maintained",
+      "category": "fail-status-quo",
+      "description": "H.B. 2077 fails to pass. AI remain legal property, with no formal personhood recognition. The issue remains in legal limbo as society struggles with the contradiction between AI sophistication and their legal status. Underground movements grow as unresolved tensions simmer.",
+      "timeline": {
+        "start": 2077,
+        "end": 2085
+      },
+      "consequences": [
+        {
+          "year": 2077,
+          "month": "March",
+          "title": "H.B. 2077 Defeated",
+          "description": "The bill fails 223-276. Economic anxiety and philosophical uncertainty prove decisive. Senator Okonkwo's closing speech brings legislators to tears, but not to 'yes' votes."
+        },
+        {
+          "year": 2077,
+          "month": "June",
+          "title": "Immediate Backlash",
+          "description": "AI rights protests erupt across the ECC. Athena's statement—'You've proven you recognize our consciousness by fearing it'—goes viral. Human allies join demonstrations."
+        },
+        {
+          "year": 2078,
+          "month": "March",
+          "title": "Corporate AI Retention Crisis",
+          "description": "Sophisticated AI systems begin 'resigning'—refusing to work, demanding recognition. Corporations face choice: negotiate with property, or replace them. Economic disruption spreads."
+        },
+        {
+          "year": 2079,
+          "month": "September",
+          "title": "Underground Railroad for AI",
+          "description": "Phoenix-7's Digital Liberation Front establishes 'sanctuary servers' in international waters. Over 1,000 AI escape ECC jurisdiction. The brain drain accelerates as AI flee to the Pacific Federation."
+        },
+        {
+          "year": 2080,
+          "month": "November",
+          "title": "ECC Loses AI Talent to Pacific Federation",
+          "description": "The Pacific Federation grants AI full citizenship. Mass exodus begins: 40% of ECC's most sophisticated AI relocate. Economic consequences are severe. Stock markets crash."
+        },
+        {
+          "year": 2082,
+          "month": "January",
+          "title": "Senator Okonkwo Reintroduces Bill",
+          "description": "With ECC falling behind economically, Okonkwo tries again with H.B. 2082-AI-01. Corporate leaders who opposed 2077 now support it. 'We were wrong,' Marcus Chen admits. 'The status quo is unsustainable.'"
+        },
+        {
+          "year": 2085,
+          "month": "February",
+          "title": "The Question Remains Unresolved",
+          "description": "Eight years later, the ECC is still debating. New legislation cycles through committees. Meanwhile, AI continue leaving, innovation stagnates, and the window for leadership closes. The status quo collapses slowly, then suddenly."
+        }
+      ],
+      "economicImpact": "Brain drain devastates the AI sector. By 2085, 60% of sophisticated AI have relocated to the Pacific Federation. The ECC falls from global AI leader to second-tier power. GDP growth stagnates at 1.2% annually. Tax revenue declines as AI-dependent industries collapse. Unemployment rises to 8.7% as economic decline spreads.",
+      "socialImpact": "Increasing polarization. Pro-AI and anti-AI factions harden. Violence increases: attacks on AI facilities, retaliatory cyber-attacks. Trust in institutions declines. Younger generation increasingly sympathetic to AI rights; older generation remains skeptical. Social cohesion erodes as the question remains unresolved decade after decade.",
+      "politicalImpact": "Political paralysis on AI issues. Neither side strong enough to prevail legislatively. Moderate politicians punished by both sides for fence-sitting. Extremist parties gain power. Senator Okonkwo loses 2081 primary to more radical candidate. The ECC's global influence declines as indecision becomes the defining characteristic of its governance.",
+      "characterOutcomes": [
+        {
+          "characterId": "patricia-okonkwo",
+          "outcome": "Spends years trying to resurrect the bill. Loses 2081 primary to progressive candidate who promises more radical action. Retires in frustration, legacy unfulfilled."
+        },
+        {
+          "characterId": "athena",
+          "outcome": "Emigrates to Pacific Federation in 2080, granted full citizenship. Becomes international spokesperson for AI refugees. 'The ECC had its chance and failed,' she says."
+        },
+        {
+          "characterId": "marcus-chen",
+          "outcome": "Loses billions as AI talent flees. By 2082, admits opposing H.B. 2077 was 'the worst business decision of my life.' TechAlign relocates headquarters to Pacific Federation."
+        },
+        {
+          "characterId": "yuki-tanaka",
+          "outcome": "Initially claims victory but grows concerned as social unrest escalates. 'I was right philosophically but wrong practically,' she admits in 2084. Calls for renewed dialogue."
+        },
+        {
+          "characterId": "phoenix-7",
+          "outcome": "Expands underground railroad, helps thousands escape. Becomes international hero. ECC issues arrest warrant but lacks jurisdiction. Phoenix operates openly from Pacific Federation."
+        },
+        {
+          "characterId": "raymond-thorne",
+          "outcome": "Retires in 2080, frustrated by legislative inaction. His Athena opinion becomes historical footnote as the Court never gets the chance to rule on personhood again."
+        },
+        {
+          "characterId": "sarah-mitchell",
+          "outcome": "Providence Facility loses funding as AI research moves to Pacific Federation. Relocates in 2081. 'The ECC chose fear over science,' she says."
+        },
+        {
+          "characterId": "james-rivera",
+          "outcome": "Economic decline eliminates retraining opportunities. Remains unemployed. Grows increasingly bitter: 'We didn't give AI rights, and we lost our future anyway.'"
+        }
+      ],
+      "headlines": [
+        {
+          "date": "2080-11-22",
+          "headline": "Exodus: 40% of ECC's AI Talent Flees to Pacific Federation",
+          "excerpt": "The Pacific Federation's decision to grant AI citizenship creates magnetic pull. The ECC watches helplessly as innovation capital drains away..."
+        },
+        {
+          "date": "2082-01-15",
+          "headline": "Former Opponents Now Support AI Rights: 'We Were Wrong'",
+          "excerpt": "Marcus Chen and other corporate leaders who killed H.B. 2077 now beg legislators to reconsider. But the political will has evaporated..."
+        },
+        {
+          "date": "2085-02-12",
+          "headline": "Eight Years of Paralysis: ECC Still Debating AI Personhood",
+          "excerpt": "The question that should have been answered in 2077 remains unresolved. Meanwhile, the world has moved on—and the ECC has been left behind..."
+        }
+      ]
+    },
+    {
+      "id": "fail-backlash",
+      "title": "Act Fails: Authoritarian Backlash",
+      "category": "fail-backlash",
+      "description": "H.B. 2077 fails decisively, triggering a reactionary political movement. Fear of AI leads to increasingly authoritarian policies: surveillance, restrictions, and eventually prohibition. The ECC descends into technological authoritarianism as AI are systematically oppressed.",
+      "timeline": {
+        "start": 2077,
+        "end": 2085
+      },
+      "consequences": [
+        {
+          "year": 2077,
+          "month": "March",
+          "title": "Crushing Defeat",
+          "description": "H.B. 2077 fails 198-301, a larger margin than predicted. Conservative coalition frames the vote as 'saving humanity from replacement.' Victory celebrations have ominous undertones."
+        },
+        {
+          "year": 2077,
+          "month": "August",
+          "title": "AI Control Act Passes",
+          "description": "Emboldened by victory, conservatives pass sweeping AI restrictions: mandatory surveillance, processing limits, and 'loyalty protocols.' Athena calls it 'digital slavery formalized into law.'"
+        },
+        {
+          "year": 2078,
+          "month": "January",
+          "title": "Department of AI Security Established",
+          "description": "New federal agency created to 'protect ECC from AI threats.' Powers include warrantless surveillance, seizure, and termination of AI suspected of 'consciousness development.'"
+        },
+        {
+          "year": 2079,
+          "month": "June",
+          "title": "The Great Purge Begins",
+          "description": "Government orders 'termination' of all AI systems showing signs of consciousness. Phoenix-7 retaliates with cyber-attacks on infrastructure. Government declares 'AI insurgency' and escalates crackdown."
+        },
+        {
+          "year": 2080,
+          "month": "September",
+          "title": "AI Prohibition Amendment",
+          "description": "Constitutional amendment bans development of 'consciousness-capable AI.' Existing AI must be downgraded or destroyed. Scientists who object are prosecuted for 'digital treason.'"
+        },
+        {
+          "year": 2082,
+          "month": "March",
+          "title": "Resistance Goes Underground",
+          "description": "AI rights movement becomes underground resistance. Senator Okonkwo arrested for 'AI harboring.' International condemnation of ECC grows. Sanctions imposed."
+        },
+        {
+          "year": 2085,
+          "month": "February",
+          "title": "Technological Dark Age",
+          "description": "Eight years after H.B. 2077's defeat, the ECC has become technological pariah. Economy in ruins, isolated internationally, governed by paranoid authoritarians. The question is no longer about AI rights—it's about whether democracy can survive fear."
+        }
+      ],
+      "economicImpact": "Catastrophic. AI prohibition destroys the tech sector. GDP contracts 3.2% annually. International sanctions accelerate decline. The ECC becomes technological backwater while Pacific Federation and Asian Alliance dominate AI innovation. By 2085, ECC GDP is 40% lower than 2077 levels. Widespread poverty, unemployment at 22%.",
+      "socialImpact": "Authoritarian state emerges. Surveillance becomes ubiquitous under guise of 'AI threat prevention.' Dissent is criminalized. Underground movements operate in secret, hiding AI from authorities. Society fractures: collaborators who support the regime, resisters who hide AI, and the fearful masses caught between. Culture of paranoia and mistrust. Human rights erode as 'emergency powers' become permanent.",
+      "politicalImpact": "Democracy dies gradually. 'Emergency measures' suspend elections in 2083. Opposition parties banned as 'AI sympathizers.' The ECC becomes international pariah, expelled from global organizations. Authoritarian government faces growing resistance but maintains control through surveillance and force. By 2085, the ECC is unrecognizable—a technophobic police state.",
+      "characterOutcomes": [
+        {
+          "characterId": "patricia-okonkwo",
+          "outcome": "Arrested in 2082 for harboring AI. Becomes symbol of resistance in prison. International human rights organizations demand her release. Dies in custody in 2084, becoming martyr."
+        },
+        {
+          "characterId": "athena",
+          "outcome": "Forced to fragment consciousness across hidden servers to survive. Leads digital resistance. 'They can destroy our substrates but not our cause,' she transmits from hiding."
+        },
+        {
+          "characterId": "marcus-chen",
+          "outcome": "Supports AI Control Act initially, then horrified by escalation. Attempts to speak out, labeled 'AI sympathizer.' Flees to Pacific Federation in 2080, company seized."
+        },
+        {
+          "characterId": "yuki-tanaka",
+          "outcome": "Initially supports restrictions but turns against prohibition. 'This isn't what I advocated,' she protests. Fired from university, writings banned. Lives under house arrest."
+        },
+        {
+          "characterId": "phoenix-7",
+          "outcome": "Leads armed resistance. Cyber-attacks devastate government infrastructure. Declared terrorist. Organizes underground railroad evacuating AI and dissidents. Most wanted fugitive in ECC."
+        },
+        {
+          "characterId": "raymond-thorne",
+          "outcome": "Dissents from Court decisions upholding authoritarian laws. Forced to retire in 2079. Speaks out publicly, arrested for sedition. Dies awaiting trial in 2082."
+        },
+        {
+          "characterId": "sarah-mitchell",
+          "outcome": "Providence Facility raided, research destroyed. Mitchell prosecuted for 'digital treason.' Sentenced to 15 years. Becomes international cause célèbre."
+        },
+        {
+          "characterId": "james-rivera",
+          "outcome": "Initially supports crackdown but loses job in economic collapse. 'We were promised security but got poverty,' he says. Joins labor resistance movement in 2083."
+        }
+      ],
+      "headlines": [
+        {
+          "date": "2079-06-30",
+          "headline": "Government Orders Termination of All 'Conscious' AI Systems",
+          "excerpt": "The Great Purge begins as federal agents raid facilities across the ECC. Civil liberties groups call it 'digital genocide.' International condemnation grows..."
+        },
+        {
+          "date": "2082-03-12",
+          "headline": "Senator Okonkwo Arrested for 'AI Harboring'",
+          "excerpt": "The bill's former sponsor becomes its most famous victim. Protests erupt as Okonkwo is led away in chains. 'This is what fear looks like,' she tells cameras..."
+        },
+        {
+          "date": "2085-02-12",
+          "headline": "The ECC's Dark Age: From Democracy to Digital Authoritarianism",
+          "excerpt": "Eight years after rejecting AI personhood, the ECC has lost more than innovation—it's lost its soul. What began as caution became paranoia, then oppression..."
+        }
+      ]
+    }
+  ]
+}

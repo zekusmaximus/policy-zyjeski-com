@@ -1,0 +1,25 @@
+{
+  "voteEvent": {
+    "enabled": true,
+    "voteDate": "2025-12-17T14:00:00Z",
+    "voteDateDisplay": "January 15, 2078",
+    "billNumber": "H.B. 2077-AI-01",
+    "billTitle": "The AI Personhood Act of 2077",
+    "locked": false,
+    "resultsAnnounced": false
+  },
+  "features": {
+    "countdown": true,
+    "scenarioExplorer": true,
+    "characterBios": true,
+    "publishedWorks": true,
+    "newsletter": true,
+    "easterEggs": true
+  },
+  "analytics": {
+    "trackScenarios": true,
+    "trackCharacters": true,
+    "trackNewsletter": true,
+    "trackEasterEggs": true
+  }
+}

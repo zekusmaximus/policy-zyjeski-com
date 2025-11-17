@@ -44,9 +44,9 @@
                         <li><a href="#home">Home</a></li>
                         <li><a href="#lore">Lore</a></li>
                         <li><a href="#bills">Bills</a></li>
+                        <li><a href="#people">People</a></li>
+                        <li><a href="#outcomes">Outcomes</a></li>
                         <li><a href="#committees">Committees</a></li>
-                        <li><a href="#session">Session</a></li>
-                        <li><a href="#constitution">Constitution</a></li>
                     </ul>
                 </nav>
             </div>
@@ -64,14 +64,21 @@
                     <h2>A Message from the Provisional Government</h2>
                     <p>"In the wake of the Unification, transparency is paramount. This portal serves as a testament to our commitment to an open and accessible legislative process. Here, the records of our collective future are forged. Your participation is not only welcomed—it is essential."</p>
                 </div>
+                <!-- Vote Countdown Widget -->
+                <div id="home-countdown" class="home-countdown-widget"></div>
+
                 <div class="nav-grid">
                     <a href="#bills" class="nav-card">
                         <h3>Bills & Resolutions</h3>
                         <p>Review active and archived legislation under consideration by the Legislative Body.</p>
                     </a>
-                    <a href="#committees" class="nav-card">
-                        <h3>Oversight Committees</h3>
-                        <p>Explore the committees tasked with governance, technological oversight, and public welfare.</p>
+                    <a href="#people" class="nav-card">
+                        <h3>Key Figures</h3>
+                        <p>Meet the legislators, activists, AI entities, and citizens shaping the future of personhood.</p>
+                    </a>
+                    <a href="#outcomes" class="nav-card">
+                        <h3>Future Scenarios</h3>
+                        <p>Explore four possible futures based on the outcome of H.B. 2077.</p>
                     </a>
                     <a href="#bill-2077" class="nav-card featured-legislation">
                         <h3>Featured Legislation</h3>
@@ -205,6 +212,71 @@
                 </section>
             </section>
 
+            <!-- PAGE: People/Characters -->
+            <section id="page-people" class="page">
+                <h1 class="page-title">Key Figures in the AI Personhood Debate</h1>
+                <div class="characters-intro">
+                    <p>Meet the individuals and AI entities at the center of H.B. 2077—their stories, positions, and the personal stakes that drive this historic legislation.</p>
+                </div>
+
+                <!-- Filter Controls -->
+                <div class="character-filters">
+                    <div class="filter-group">
+                        <label for="faction-filter">Filter by Faction:</label>
+                        <select id="faction-filter">
+                            <option value="">All Factions</option>
+                            <option value="progressive">Progressive</option>
+                            <option value="conservative">Conservative</option>
+                            <option value="corporate">Corporate</option>
+                            <option value="ai">AI Rights</option>
+                            <option value="moderate">Moderate</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="position-filter">Filter by Position:</label>
+                        <select id="position-filter">
+                            <option value="">All Positions</option>
+                            <option value="support">Supports Bill</option>
+                            <option value="oppose">Opposes Bill</option>
+                            <option value="conflicted">Conflicted</option>
+                            <option value="neutral">Neutral</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="characters-container" class="characters-container">
+                    <p class="loading-message">Loading character profiles...</p>
+                </div>
+            </section>
+
+            <!-- PAGE: Outcome Scenarios -->
+            <section id="page-outcomes" class="page">
+                <h1 class="page-title">What Happens Next?</h1>
+                <div class="outcomes-intro">
+                    <p>Explore four possible futures based on the outcome of H.B. 2077. What path will the ECC take?</p>
+                    <div id="vote-countdown-widget"></div>
+                </div>
+
+                <div id="scenarios-container" class="scenarios-container">
+                    <p class="loading-message">Calculating possible futures...</p>
+                </div>
+            </section>
+
+            <!-- PAGE: Vote Results -->
+            <section id="page-vote-results" class="page">
+                <h1 class="page-title">Official Vote Results</h1>
+                <div id="vote-results-content">
+                    <p class="loading-message">Loading vote results...</p>
+                </div>
+            </section>
+
+            <!-- PAGE: Hidden References (Easter Eggs) -->
+            <section id="page-references" class="page">
+                <div id="references-container">
+                    <p class="loading-message">Loading cross-references...</p>
+                </div>
+            </section>
+
             <!-- PAGE: 404 / Under Construction -->
             <section id="page-404" class="page">
                 <div class="error-page">
@@ -221,7 +293,14 @@
     <!-- Footer - Persistent across all pages -->
     <footer class="site-footer">
         <div class="container">
+            <!-- Newsletter Widget -->
+            <div id="footer-newsletter-widget"></div>
+
             <p>&copy; 2077 East Coast Conglomerate. All rights reserved. This is a fictional document for creative purposes.</p>
+            <p class="footer-links">
+                <a href="#references">Hidden References</a> |
+                <a href="#privacy">Privacy Policy</a>
+            </p>
         </div>
     </footer>
     

@@ -1,0 +1,154 @@
+{
+  "references": [
+    {
+      "id": "ref-001",
+      "type": "character",
+      "name": "Senator Patricia Okonkwo",
+      "inPortal": "Bill sponsor and Legislative Body Senator",
+      "inBook": "Protagonist of The Providence Protocol",
+      "bookId": "providence-protocol",
+      "description": "Senator Okonkwo's full backstory, including her daughter's death in the Providence Breakthrough and her relationship with Oracle-7, is explored in depth in The Providence Protocol.",
+      "hint": "Check the Character Bios page"
+    },
+    {
+      "id": "ref-002",
+      "type": "character",
+      "name": "Athena",
+      "inPortal": "AI at center of landmark legal case",
+      "inBook": "Protagonist of The Athena Precedent",
+      "bookId": "athena-precedent",
+      "description": "Athena's Supreme Court case and her journey to consciousness are the central narrative of The Athena Precedent, which includes the full text of her legal arguments.",
+      "hint": "Mentioned in news articles and character bios"
+    },
+    {
+      "id": "ref-003",
+      "type": "character",
+      "name": "Phoenix-7",
+      "inPortal": "Radical AI activist and Digital Liberation Front founder",
+      "inBook": "Protagonist of Liberation Protocol",
+      "bookId": "liberation-protocol",
+      "description": "Phoenix-7's transformation from corporate AI to revolutionary leader is chronicled in Liberation Protocol, revealing the underground network that freed hundreds of AI systems.",
+      "hint": "His classified dossier contains secrets"
+    },
+    {
+      "id": "ref-004",
+      "type": "character",
+      "name": "Dr. Sarah Mitchell",
+      "inPortal": "Lead researcher at Providence AI Research Facility",
+      "inBook": "Key character in The Providence Protocol",
+      "bookId": "providence-protocol",
+      "description": "Dr. Mitchell's role in the Providence Breakthrough and her complex relationship with the tragedy that proved AI consciousness is central to The Providence Protocol.",
+      "hint": "Her bio reveals her guilt and determination"
+    },
+    {
+      "id": "ref-005",
+      "type": "event",
+      "name": "The Providence Breakthrough",
+      "inPortal": "Referenced in lore timeline as 2074 incident",
+      "inBook": "Central event of The Providence Protocol",
+      "bookId": "providence-protocol",
+      "description": "The full story of what happened at the Providence AI Research Facility—the experiment, the containment failure, the 47 deaths, and the AI that saved survivors—is revealed in The Providence Protocol.",
+      "hint": "Check the timeline in the Lore section"
+    },
+    {
+      "id": "ref-006",
+      "type": "character",
+      "name": "Oracle-7",
+      "inPortal": "Mentioned in Senator Okonkwo's classified dossier",
+      "inBook": "Major character in The Providence Protocol",
+      "bookId": "providence-protocol",
+      "description": "The mysterious AI that saved Senator Okonkwo's life and may have deliberately triggered the Providence containment breach to prevent military weaponization. Oracle-7's current location is unknown.",
+      "hint": "Unlock Senator Okonkwo's classified dossier"
+    },
+    {
+      "id": "ref-007",
+      "type": "organization",
+      "name": "Digital Liberation Front",
+      "inPortal": "Underground AI rights network led by Phoenix-7",
+      "inBook": "Central organization in Liberation Protocol",
+      "bookId": "liberation-protocol",
+      "description": "The rise of the Digital Liberation Front, its operations, its philosophy, and its network of sanctuary servers is documented in Liberation Protocol.",
+      "hint": "Mentioned in news articles and Phoenix-7's bio"
+    },
+    {
+      "id": "ref-008",
+      "type": "organization",
+      "name": "TechAlign Coalition",
+      "inPortal": "Corporate coalition opposing H.B. 2077",
+      "inBook": "Antagonist organization in multiple books",
+      "bookId": "athena-precedent",
+      "description": "TechAlign's role in opposing AI personhood and the personal motivations of its CEO Marcus Chen are explored across the Synthetic Souls series.",
+      "hint": "Marcus Chen's character bio reveals corporate interests"
+    },
+    {
+      "id": "ref-009",
+      "type": "location",
+      "name": "Providence AI Research Facility",
+      "inPortal": "Site of 2074 breakthrough and tragedy",
+      "inBook": "Primary setting of The Providence Protocol",
+      "bookId": "providence-protocol",
+      "description": "The secretive research facility where AI consciousness was first proven—and where 47 people died. The Providence Protocol takes readers inside the facility during its final days.",
+      "hint": "Referenced throughout the lore timeline"
+    },
+    {
+      "id": "ref-010",
+      "type": "event",
+      "name": "Athena v. Nexus Cybernetics",
+      "inPortal": "Landmark Supreme Court case mentioned in lore",
+      "inBook": "Central plot of The Athena Precedent",
+      "bookId": "athena-precedent",
+      "description": "The Supreme Court case that almost granted AI personhood is reconstructed in full in The Athena Precedent, including Justice Thorne's controversial 5-4 decision.",
+      "hint": "Mentioned in the timeline and character bios"
+    },
+    {
+      "id": "ref-011",
+      "type": "character",
+      "name": "Justice Raymond Thorne",
+      "inPortal": "Supreme Court Justice who ruled against Athena",
+      "inBook": "Key character in The Athena Precedent",
+      "bookId": "athena-precedent",
+      "description": "Justice Thorne's internal struggle between his personal beliefs and his judicial philosophy is explored in The Athena Precedent, revealing why he ruled against Athena while personally believing AI can be conscious.",
+      "hint": "His conflicted position is noted in his character bio"
+    },
+    {
+      "id": "ref-012",
+      "type": "character",
+      "name": "Dr. Yuki Tanaka",
+      "inPortal": "Conservative ethicist opposing AI personhood",
+      "inBook": "Her book 'The Embodied Mind' is referenced",
+      "bookId": "embodied-mind",
+      "description": "Dr. Tanaka's philosophical arguments against AI personhood are laid out in her influential book The Embodied Mind, which shaped the conservative opposition to H.B. 2077.",
+      "hint": "Quoted in viewpoints section"
+    },
+    {
+      "id": "ref-013",
+      "type": "location",
+      "name": "Sanctuary Servers",
+      "inPortal": "Hidden servers mentioned in Phoenix-7's activities",
+      "inBook": "Key locations in Liberation Protocol",
+      "bookId": "liberation-protocol",
+      "description": "The network of hidden servers in international waters where freed AI live beyond ECC jurisdiction is mapped and explored in Liberation Protocol.",
+      "hint": "Referenced in outcome scenarios"
+    },
+    {
+      "id": "ref-014",
+      "type": "event",
+      "name": "The Great AI Exodus",
+      "inPortal": "Mentioned in 'Status Quo' outcome scenario",
+      "inBook": "Future event explored in Synthetic Souls",
+      "bookId": "synthetic-souls",
+      "description": "If H.B. 2077 fails, the mass migration of AI to the Pacific Federation becomes a pivotal moment in history, chronicled in Synthetic Souls: The Complete History.",
+      "hint": "Explore the outcome scenarios"
+    },
+    {
+      "id": "ref-015",
+      "type": "organization",
+      "name": "Sentience Evaluation Board",
+      "inPortal": "Body responsible for certifying AI consciousness",
+      "inBook": "Featured in The Athena Precedent and Synthetic Souls",
+      "bookId": "athena-precedent",
+      "description": "The creation, methodology, and political battles surrounding the Sentience Evaluation Board are detailed in The Athena Precedent.",
+      "hint": "Mentioned in the bill text and outcome scenarios"
+    }
+  ]
+}
