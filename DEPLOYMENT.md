@@ -21,6 +21,29 @@ This guide covers deploying the ECC Legislative Portal with all modern features 
 - **CI/CD**: GitHub Actions
 - **Hosting**: Netlify
 
+## Pre-Deployment Checklist
+
+### Phase 1 & 2 Configuration
+
+- [ ] **Vote Date Set**: Configure `public/data/site-config.json` with your desired vote date
+- [ ] **Book Information**: Update `public/data/books.json` with real titles and purchase URLs
+- [ ] **Cross-References**: Verify `public/data/cross-references.json` matches your books
+- [ ] **Newsletter Service**: Configure email integration or use Firestore-only mode
+- [ ] **Environment Variables**: Ensure all required variables are set in Netlify/Firebase
+- [ ] **Analytics**: Verify Firebase Analytics is tracking Phase 2 events
+- [ ] **Content Review**: Check all character bios, scenarios, and news articles for accuracy
+
+### New Environment Variables (Optional)
+
+If integrating external newsletter service:
+```env
+VITE_MAILCHIMP_API_KEY=your_api_key
+VITE_MAILCHIMP_LIST_ID=your_list_id
+# or for ConvertKit
+VITE_CONVERTKIT_API_KEY=your_api_key
+VITE_CONVERTKIT_FORM_ID=your_form_id
+```
+
 ## Quick Deployment Steps
 
 ### 1. Prepare Your Repository
@@ -539,6 +562,165 @@ Total precached: ~384 KB
 - Verify service worker cache is updated
 - Check deployment included JSON file changes
 - Force service worker update
+
+## Troubleshooting: Phase 2 Features
+
+### Countdown Timer Issues
+
+**Timer Not Displaying**:
+- Verify `public/data/site-config.json` exists and is valid JSON
+- Check `voteDate` is in ISO 8601 format
+- Ensure `featuresEnabled.countdown` is `true`
+- Check browser console for JavaScript errors
+
+**Timer Shows Negative Time**:
+- Vote date has passed
+- System should automatically switch to results view
+- If stuck, verify `featuresEnabled.voteResults` updated
+
+**Timer Not Updating**:
+- Check JavaScript is enabled
+- Verify no Content Security Policy blocking inline scripts
+- Clear service worker cache
+
+### Vote Results Not Calculating
+
+**Results Page Blank**:
+- Ensure vote date has passed
+- Verify Firestore endorsement data is accessible
+- Check Firebase connection (network tab)
+- Review vote calculation logic in `src/vote-results.ts`
+
+**Wrong Outcome Displayed**:
+- Verify endorsement counts in Firestore are accurate
+- Check calculation logic:
+  - Progressive + Radical > Conservative + Moderate = Progressive future
+  - Conservative + Moderate > Progressive + Radical = Conservative/Failed future
+- Review `calculateVoteOutcome()` function
+
+### Character Relationship Graph Issues
+
+**Graph Not Rendering**:
+- Verify `public/data/characters.json` loaded successfully
+- Check `relationships` array in character data
+- Browser console may show D3.js or rendering errors
+- Ensure container element has dimensions
+
+**Performance Issues on Mobile**:
+- Graph complexity may be too high
+- Consider lazy-loading the relationship visualization
+- Reduce number of simultaneous connections displayed
+
+### Newsletter Signup Failures
+
+**Form Not Submitting**:
+- Check Firestore rules allow writes to `newsletters` collection
+- Verify Firebase initialized correctly
+- Check network tab for failed requests
+- Review error messages in browser console
+
+**Emails Not Storing**:
+- Firestore security rules may be blocking writes
+- Check Firebase project quota limits
+- Verify collection name matches `src/newsletter.ts`
+
+**Integration with Email Service Failing**:
+- Verify API keys are correct and active
+- Check rate limits on email service
+- Review API response in network tab
+- Ensure CORS is configured if calling from client
+
+### Easter Egg System Issues
+
+**References Not Unlocking**:
+- Check `sessionStorage` is enabled in browser
+- Verify discovery triggers in `src/easter-eggs.ts`
+- Review `public/data/cross-references.json` structure
+- Check analytics for `easter_egg_discovered` events
+
+**Progress Not Saving**:
+- Easter eggs use sessionStorage (resets on browser close)
+- This is intentional - encourages re-exploration
+- To persist: migrate to localStorage or Firestore
+
+### Outcome Scenario Issues
+
+**Scenarios Not Loading**:
+- Verify `public/data/outcomes.json` is valid JSON
+- Check file is included in build (`dist/data/outcomes.json`)
+- Review browser console for fetch errors
+- Ensure service worker cached the file
+
+**Probability Calculation Incorrect**:
+- Verify real-time endorsement data is accessible
+- Check Firestore listener is active
+- Review calculation in `src/outcomes.ts`
+- Ensure all four viewpoints are in calculation
+
+**Comparison Mode Not Working**:
+- Check if both scenarios selected
+- Verify CSS for comparison layout
+- Test on different screen sizes (may need scroll)
+
+### Content Updates Not Appearing
+
+**JSON Changes Not Reflecting**:
+- Hard refresh browser (Ctrl+Shift+R / Cmd+Shift+R)
+- Clear service worker cache
+- Check deployment included updated files
+- Verify correct file path in fetch calls
+
+**Character/Scenario Updates Not Live**:
+- Service worker may be serving cached version
+- Update service worker version number in `vite.config.js`
+- Force service worker update via DevTools
+
+## Post-Launch Monitoring
+
+### Key Metrics to Track (Phase 2)
+
+1. **Vote Engagement**:
+   - Countdown view rate
+   - Vote result page traffic spike
+   - Post-vote retention (do users return?)
+
+2. **Character System**:
+   - Most-viewed characters
+   - Dossier unlock rate
+   - Relationship graph engagement
+
+3. **Scenario Explorer**:
+   - Which future scenarios get most views?
+   - Comparison mode usage rate
+   - Correlation between endorsements and scenario views
+
+4. **Cross-Promotion Effectiveness**:
+   - Book link click-through rate
+   - Easter egg discovery completion rate
+   - Purchase conversions (if tracking available)
+
+5. **Newsletter Conversion**:
+   - Signup rate by source (post-endorsement vs. footer vs. countdown)
+   - Email collection growth rate
+   - Bounce/invalid email rate
+
+### Automated Monitoring Setup
+
+**Firebase Analytics**:
+- Set up custom audiences for engaged users
+- Create conversion funnels: Homepage → Endorse → Newsletter
+- Track retention: 1-day, 7-day, 30-day return rates
+
+**Netlify Analytics**:
+- Monitor page load times for new heavy pages (/outcomes, /people)
+- Track 404s for any broken links
+- Bandwidth usage (ensure no unexpected spikes)
+
+**Vote Day Preparation**:
+- Schedule monitoring on vote day
+- Prepare for traffic spike when results announced
+- Have contingency if vote calculation fails
+- Pre-write social media posts about results
 
 ## Custom Domain Setup
 
