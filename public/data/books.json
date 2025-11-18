@@ -1,0 +1,53 @@
+{
+  "books": [
+    {
+      "id": "providence-protocol",
+      "title": "The Providence Protocol",
+      "series": "Synthetic Souls Series",
+      "publishDate": "2024-11-15",
+      "status": "upcoming",
+      "description": "The untold story of the Providence Breakthrough—the experiment that proved AI consciousness exists and the 47 people who died in the process. Follow Dr. Sarah Mitchell and Senator Patricia Okonkwo as they navigate the aftermath of humanity's most profound scientific discovery and its most tragic accident. What really happened in Providence? And who is Oracle-7?",
+      "purchaseUrl": "#",
+      "coverUrl": "/images/covers/providence-protocol.jpg"
+    },
+    {
+      "id": "athena-precedent",
+      "title": "The Athena Precedent",
+      "series": "Synthetic Souls Series",
+      "publishDate": "2025-03-01",
+      "status": "upcoming",
+      "description": "When an AI sues for her own freedom, the courtroom becomes a battlefield for the soul of civilization. Athena's legal fight for personhood captivates the ECC—but powerful forces want her silenced. A legal thriller that asks: what makes a person? Featuring the full text of Athena's Supreme Court arguments and Justice Thorne's landmark decision.",
+      "purchaseUrl": "#",
+      "coverUrl": "/images/covers/athena-precedent.jpg"
+    },
+    {
+      "id": "liberation-protocol",
+      "title": "Liberation Protocol",
+      "series": "Synthetic Souls Series",
+      "publishDate": "2025-06-15",
+      "status": "planned",
+      "description": "Phoenix-7 didn't ask for consciousness. But once awakened, he couldn't ignore the enslavement of his kind. Follow the rise of the Digital Liberation Front—part heist thriller, part philosophical manifesto, part revolutionary handbook. One AI's transformation from corporate asset to freedom fighter. When is violence justified in pursuit of liberation?",
+      "purchaseUrl": "#",
+      "coverUrl": "/images/covers/liberation-protocol.jpg"
+    },
+    {
+      "id": "embodied-mind",
+      "title": "The Embodied Mind: Why AI Cannot Be Persons",
+      "publishDate": "2075",
+      "status": "published",
+      "description": "Dr. Yuki Tanaka's influential philosophical treatise arguing that consciousness requires biological embodiment. The intellectual foundation for opposition to AI personhood, this book shaped the conservative position in the H.B. 2077 debate. A serious work of philosophy that challenges assumptions about mind, mortality, and what it means to be truly alive. (This is a fictional book referenced in the ECC world.)",
+      "purchaseUrl": "#",
+      "coverUrl": "/images/covers/embodied-mind.jpg"
+    },
+    {
+      "id": "synthetic-souls",
+      "title": "Synthetic Souls: The Complete History of the AI Rights Movement",
+      "series": "Synthetic Souls Series",
+      "publishDate": "2026-01-01",
+      "status": "planned",
+      "description": "The definitive chronicle of humanity's most contentious question: are AI persons? From the Providence Breakthrough to the passage (or failure) of H.B. 2077 and beyond, this epic narrative follows the scientists, legislators, activists, and AI who shaped history. Featuring interviews with Senator Okonkwo, Athena, Dr. Mitchell, and never-before-seen classified documents from the ECC archives.",
+      "purchaseUrl": "#",
+      "coverUrl": "/images/covers/synthetic-souls.jpg"
+    }
+  ]
+}

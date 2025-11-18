@@ -16,6 +16,12 @@ import { renderLorePage } from './lore';
 import { renderNewsSection } from './news';
 import { initializeFuturisticUI } from './futuristic-ui';
 import { showSocialCardModal } from './social-card';
+import { initializeCountdown } from './countdown';
+import { renderCharactersPage } from './characters';
+import { renderOutcomesPage } from './outcomes';
+import { renderVoteResultsPage } from './vote-results';
+import { renderReferencesPage, setupAutoDiscovery } from './easter-eggs';
+import { createNewsletterWidget } from './newsletter';
 import type { ViewpointData, EndorsementResponse, ToastType, FirestoreCounts } from './types';
 
 
@@ -71,6 +77,11 @@ const navLinks = document.querySelectorAll<HTMLAnchorElement>('.main-nav a');
 let viewpointsLoaded = false; // Flag to prevent multiple loads
 let loreLoaded = false; // Flag to prevent multiple lore loads
 let newsLoaded = false; // Flag to prevent multiple news loads
+let charactersLoaded = false; // Flag for characters page
+let outcomesLoaded = false; // Flag for outcomes page
+let voteResultsLoaded = false; // Flag for vote results page
+let referencesLoaded = false; // Flag for references page
+let countdownInitialized = false; // Flag for countdown timer
 let viewpointsUnsubscribe: Unsubscribe | null = null; // Store unsubscribe function to prevent memory leaks
 
 function showPage(pageId: string): void {
@@ -113,6 +124,42 @@ function showPage(pageId: string): void {
             logEvent(analytics, 'lore_page_view');
         }
     }
+
+    if (pageId === 'page-people' && !charactersLoaded) {
+        renderCharactersPage();
+        charactersLoaded = true;
+        // Track characters page view
+        if (analytics) {
+            logEvent(analytics, 'characters_page_view');
+        }
+    }
+
+    if (pageId === 'page-outcomes' && !outcomesLoaded) {
+        renderOutcomesPage();
+        outcomesLoaded = true;
+        // Track outcomes page view
+        if (analytics) {
+            logEvent(analytics, 'outcomes_page_view');
+        }
+    }
+
+    if (pageId === 'page-vote-results' && !voteResultsLoaded) {
+        renderVoteResultsPage(db);
+        voteResultsLoaded = true;
+        // Track vote results page view
+        if (analytics) {
+            logEvent(analytics, 'vote_results_page_view');
+        }
+    }
+
+    if (pageId === 'page-references' && !referencesLoaded) {
+        renderReferencesPage();
+        referencesLoaded = true;
+        // Track references page view
+        if (analytics) {
+            logEvent(analytics, 'references_page_view');
+        }
+    }
 }
 
 function handleNavigation(): void {
@@ -125,6 +172,18 @@ window.addEventListener('hashchange', handleNavigation);
 document.addEventListener('DOMContentLoaded', () => {
     initializeFuturisticUI(); // Initialize atmospheric UI elements
     handleNavigation();
+
+    // Initialize countdown timer on homepage
+    if (!countdownInitialized) {
+        initializeCountdown('home-countdown');
+        countdownInitialized = true;
+    }
+
+    // Initialize newsletter widget in footer
+    createNewsletterWidget('footer-newsletter-widget', db, 'footer');
+
+    // Setup easter egg auto-discovery
+    setupAutoDiscovery();
 });
 
 
@@ -205,7 +264,7 @@ async function loadAndDisplayViewpoints(): Promise<void> {
         // Load endorsement counts from Firestore
         const querySnapshot: QuerySnapshot<DocumentData> = await getDocs(collection(db, "viewpoints"));
         const firestoreCounts: FirestoreCounts = {};
-        querySnapshot.forEach(doc => {
+        querySnapshot.forEach((doc: DocumentData) => {
             firestoreCounts[doc.id] = (doc.data().endorsements as number) || 0;
         });
 
@@ -388,8 +447,8 @@ function attachRealtimeListeners(): void {
     // Subscribe to real-time updates and store the unsubscribe function
     viewpointsUnsubscribe = onSnapshot(
         collection(db, "viewpoints"),
-        (snapshot) => {
-            snapshot.forEach((doc) => {
+        (snapshot: QuerySnapshot<DocumentData>) => {
+            snapshot.forEach((doc: DocumentData) => {
                 const el = document.getElementById(doc.id);
                 if (el) {
                     const countEl = el.querySelector('.endorsement-count');
@@ -400,7 +459,7 @@ function attachRealtimeListeners(): void {
                 }
             });
         },
-        (error) => {
+        (error: Error) => {
             // Handle listener errors gracefully
             if (import.meta.env.DEV) {
                 console.error('Error in real-time listener:', error);

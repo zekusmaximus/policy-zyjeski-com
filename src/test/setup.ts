@@ -3,7 +3,7 @@
  * Runs before all tests to configure the test environment
  */
 
-import { vi } from 'vitest';
+import { vi, afterEach } from 'vitest';
 
 // Mock sessionStorage
 const sessionStorageMock = (() => {
