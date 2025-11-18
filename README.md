@@ -4,6 +4,7 @@ A fictional legislative portal for the East Coast Conglomerate, featuring the la
 
 ## Features
 
+### Phase 1: Core Legislative Portal
 - **Single Page Application**: Smooth navigation between different sections
 - **Real-time Data**: Live endorsement counts using Firebase Firestore
 - **Interactive Testimony**: Users can endorse different viewpoints on legislation
@@ -15,6 +16,14 @@ A fictional legislative portal for the East Coast Conglomerate, featuring the la
 - **Analytics**: Firebase Analytics tracking for user engagement and errors
 - **Content Management**: Dynamic content loading from JSON files
 - **CI/CD Pipeline**: Automated testing and deployment via GitHub Actions
+
+### Phase 2 Enhancements (Engagement & Retention)
+- **Vote Countdown System**: Real-time countdown to scheduled vote with automatic result calculation
+- **Character Profiles**: 8 fully-developed characters with relationship visualization and classified dossiers
+- **Outcome Scenarios**: Interactive future timeline explorer showing 4 possible outcomes (2077-2085)
+- **Published Works Integration**: 15+ cross-references linking portal content to author's books
+- **Easter Egg System**: Hidden reference discovery with achievement tracking
+- **Newsletter Integration**: In-universe themed email signup with Firestore backend
 
 ## Technology Stack
 
@@ -218,10 +227,37 @@ Comprehensive analytics tracking is implemented for:
 
 ### Tracked Events
 
+**Phase 1 Events**:
 1. **app_initialized**: When the application starts
 2. **page_view**: Every page navigation with page details
 3. **endorsement_submitted**: Successful endorsements with viewpoint ID
 4. **endorsement_error**: Failed endorsements with error details
+
+**Phase 2 Events**:
+
+**Vote System**:
+- **countdown_viewed**: User sees countdown timer
+- **vote_result_viewed**: User views vote outcome
+- **outcome_probability_viewed**: User checks which future is most likely
+
+**Character System**:
+- **character_viewed**: Character bio opened
+- **character_filtered**: Applied faction/position filter
+- **relationship_graph_viewed**: Viewed character connections
+- **dossier_unlocked**: Discovered classified information
+
+**Scenario Explorer**:
+- **scenario_explored**: User explores a future timeline
+- **scenario_compared**: Side-by-side comparison used
+
+**Cross-Promotion**:
+- **book_link_clicked**: Purchase link clicked
+- **reference_page_visited**: Easter egg page viewed
+- **easter_egg_discovered**: Hidden reference found
+
+**Newsletter**:
+- **newsletter_form_viewed**: Signup form displayed
+- **newsletter_subscribed**: Email submitted (includes source tracking)
 
 ### Analytics Dashboard
 
@@ -230,6 +266,9 @@ View analytics in your Firebase Console:
 - Page view analytics
 - Endorsement conversion rates
 - Error tracking and debugging
+- Vote engagement and conversion
+- Character and scenario exploration patterns
+- Cross-promotion effectiveness
 
 ### Privacy
 
@@ -312,7 +351,14 @@ ecc-portal/
 │   └── .eslintrc.cjs      # Linting configuration
 ├── public/
 │   ├── data/
-│   │   └── viewpoints.json # Viewpoints content (JSON CMS)
+│   │   ├── viewpoints.json      # Phase 1: Viewpoint content
+│   │   ├── lore.json            # Phase 1: ECC history & timeline
+│   │   ├── news.json            # Phase 1: News articles
+│   │   ├── site-config.json     # Phase 2: Vote date & feature flags
+│   │   ├── characters.json      # Phase 2: Character bios
+│   │   ├── outcomes.json        # Phase 2: Future scenarios
+│   │   ├── books.json           # Phase 2: Author bibliography
+│   │   └── cross-references.json # Phase 2: Portal-book connections
 │   ├── _redirects         # Netlify SPA redirects
 │   └── vite.svg          # Favicon (also used as PWA icon)
 ├── src/
@@ -321,6 +367,17 @@ ecc-portal/
 │   │   ├── utils.test.ts # Utility function tests
 │   │   └── endorsement.test.ts # Endorsement logic tests
 │   ├── main.ts           # Main application logic (TypeScript)
+│   ├── types.ts          # TypeScript type definitions
+│   ├── lore.ts           # Phase 1: Lore rendering
+│   ├── news.ts           # Phase 1: News rendering
+│   ├── futuristic-ui.ts  # Phase 1: UI effects
+│   ├── social-card.ts    # Phase 1: Social sharing
+│   ├── countdown.ts      # Phase 2: Vote countdown
+│   ├── characters.ts     # Phase 2: Character profiles
+│   ├── outcomes.ts       # Phase 2: Future scenarios
+│   ├── vote-results.ts   # Phase 2: Vote outcome display
+│   ├── newsletter.ts     # Phase 2: Newsletter signup
+│   ├── easter-eggs.ts    # Phase 2: Easter egg system
 │   ├── vite-env.d.ts     # Vite environment type definitions
 │   └── style.css         # Application styles
 ├── index.html            # Main HTML template
@@ -331,8 +388,83 @@ ecc-portal/
 ├── tsconfig.json         # TypeScript configuration
 ├── tsconfig.node.json    # TypeScript config for build tools
 ├── SECURITY.md           # Security documentation
+├── DEPLOYMENT.md         # Deployment guide
+├── CONFIGURATION.md      # Configuration reference
 └── package.json          # Dependencies and scripts
 ```
+
+## Configuration
+
+### Vote System Setup
+
+The vote countdown and results are controlled via `public/data/site-config.json`:
+
+```json
+{
+  "voteDate": "2025-12-17T18:00:00Z",  // Change to your desired date
+  "inUniverseVoteDate": "January 15, 2078",
+  "votingEnabled": true,
+  "featuresEnabled": {
+    "countdown": true,
+    "voteResults": false  // Automatically set to true after vote
+  }
+}
+```
+
+**Important**: Once the vote date passes, the system automatically:
+- Locks endorsements (prevents new votes)
+- Calculates outcome based on endorsement distribution
+- Displays vote results page
+- Shows which future scenario becomes "canon"
+
+### Newsletter Integration
+
+#### Option A: Firestore-Only (Current Implementation)
+- Emails stored in `newsletters` collection
+- Manual export required for email campaigns
+- No external dependencies
+
+#### Option B: Email Service Integration (Recommended)
+
+Integrate with Mailchimp, ConvertKit, or Buttondown:
+
+1. Install email service SDK:
+   ```bash
+   npm install @mailchimp/mailchimp_marketing
+   # or
+   npm install @convertkit/convertkit-node
+   ```
+
+2. Add environment variables:
+   ```env
+   VITE_MAILCHIMP_API_KEY=your_api_key
+   VITE_MAILCHIMP_LIST_ID=your_list_id
+   ```
+
+3. Update `src/newsletter.ts` with API integration
+
+### Book Integration
+
+Update `public/data/books.json` with your real published works:
+
+```json
+{
+  "books": [
+    {
+      "id": "book_1",
+      "title": "Your Actual Book Title",
+      "series": "Series Name",
+      "status": "published",  // or "forthcoming"
+      "purchaseUrl": "https://amazon.com/your-book",
+      "coverImage": "/images/covers/book1.jpg"
+    }
+  ]
+}
+```
+
+Update cross-references in `public/data/cross-references.json` to match your books.
+
+For detailed configuration instructions, see [CONFIGURATION.md](./CONFIGURATION.md).
 
 ## Contributing
 
