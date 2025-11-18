@@ -46,7 +46,7 @@ async function getEndorsementCounts(db: any): Promise<Record<string, number>> {
     const querySnapshot: QuerySnapshot<DocumentData> = await getDocs(collection(db, "viewpoints"));
     const counts: Record<string, number> = {};
 
-    querySnapshot.forEach(doc => {
+    querySnapshot.forEach((doc: DocumentData) => {
       counts[doc.id] = (doc.data().endorsements as number) || 0;
     });
 

@@ -264,7 +264,7 @@ async function loadAndDisplayViewpoints(): Promise<void> {
         // Load endorsement counts from Firestore
         const querySnapshot: QuerySnapshot<DocumentData> = await getDocs(collection(db, "viewpoints"));
         const firestoreCounts: FirestoreCounts = {};
-        querySnapshot.forEach(doc => {
+        querySnapshot.forEach((doc: DocumentData) => {
             firestoreCounts[doc.id] = (doc.data().endorsements as number) || 0;
         });
 
@@ -447,8 +447,8 @@ function attachRealtimeListeners(): void {
     // Subscribe to real-time updates and store the unsubscribe function
     viewpointsUnsubscribe = onSnapshot(
         collection(db, "viewpoints"),
-        (snapshot) => {
-            snapshot.forEach((doc) => {
+        (snapshot: QuerySnapshot<DocumentData>) => {
+            snapshot.forEach((doc: DocumentData) => {
                 const el = document.getElementById(doc.id);
                 if (el) {
                     const countEl = el.querySelector('.endorsement-count');
@@ -459,7 +459,7 @@ function attachRealtimeListeners(): void {
                 }
             });
         },
-        (error) => {
+        (error: Error) => {
             // Handle listener errors gracefully
             if (import.meta.env.DEV) {
                 console.error('Error in real-time listener:', error);
